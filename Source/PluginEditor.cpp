@@ -11,7 +11,7 @@
 
 //==============================================================================
 MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor (&p), audioProcessor (p), scale("C", "Major")
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -19,7 +19,7 @@ MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor&
     addAndMakeVisible(keyDropdow);
     addAndMakeVisible(scaleDropdow);
     addAndMakeVisible(octDown);
-    
+
     keyDropdow.setEditableText(false);
     keyDropdow.addItem("C", 1);
     keyDropdow.addItem("Db", 2);
@@ -34,7 +34,8 @@ MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor&
     keyDropdow.addItem("Bb", 11);
     keyDropdow.addItem("B", 12);
     keyDropdow.setSelectedId(1);
-    
+    keyDropdow.addListener(this);
+
     scaleDropdow.setEditableText(false);
     scaleDropdow.addItem("Major", 1);
     scaleDropdow.addItem("Minor", 2);
@@ -48,23 +49,11 @@ MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor&
     scaleDropdow.addItem("Major Pentatonic", 10);
     scaleDropdow.addItem("Minor Pentatonic", 11);
     scaleDropdow.setSelectedId(1);
-    
+    scaleDropdow.addListener(this);
+
     octDown.setTitle("Oct Down");
     octDown.setButtonText("Oct Down");
-        
-    keyStrToRect["C"] = keyC;
-    keyStrToRect["Db"] = keyDb;
-    keyStrToRect["D"] = keyD;
-    keyStrToRect["Eb"] = keyEb;
-    keyStrToRect["E"] = keyE;
-    keyStrToRect["F"] = keyF;
-    keyStrToRect["Gb"] = keyGb;
-    keyStrToRect["G"] = keyG;
-    keyStrToRect["Ab"] = keyAb;
-    keyStrToRect["A"] = keyA;
-    keyStrToRect["Bb"] = keyBb;
-    keyStrToRect["B"] = keyB;
-    
+
     keyC = juce::Rectangle<int>(10, 90, 20, 50);
     keyDb = juce::Rectangle<int>(20, 90, 20, 25);
     keyD = juce::Rectangle<int>(31, 90, 20, 50);
@@ -77,7 +66,19 @@ MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor&
     keyA = juce::Rectangle<int>(115, 90, 20, 50);
     keyBb = juce::Rectangle<int>(125, 90, 20, 25);
     keyB = juce::Rectangle<int>(136, 90, 20, 50);
-    
+
+    itor[1] = keyC;
+    itor[2] = keyDb;
+    itor[3] = keyD;
+    itor[4] = keyEb;
+    itor[5] = keyE;
+    itor[6] = keyF;
+    itor[7] = keyGb;
+    itor[8] = keyG;
+    itor[9] = keyAb;
+    itor[10] = keyA;
+    itor[11] = keyBb;
+    itor[12] = keyB;
 }
 
 MidiGenAudioProcessorEditor::~MidiGenAudioProcessorEditor()
@@ -89,7 +90,7 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    
+
     g.setColour (juce::Colours::white);
     g.fillRect(keyC);
     g.fillRect(keyD);
@@ -98,7 +99,7 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
     g.fillRect(keyG);
     g.fillRect(keyA);
     g.fillRect(keyB);
-    
+
     g.setColour (juce::Colours::black);
     g.fillRect(keyDb);
     g.fillRect(keyEb);
@@ -106,12 +107,29 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
     g.fillRect(keyAb);
     g.fillRect(keyBb);
 
+    auto notesInScale = scale.getNotesInScale();
+
+    g.setColour(juce::Colour(59, 219, 255));
+    for (auto it : itor) {
+        if (notesInScale.count(it.first) > 0) {
+            g.fillRect(it.second);
+        }
+    }
 }
 
 void MidiGenAudioProcessorEditor::resized()
 {
-    
-    keyDropdow.setBounds(10, 10, 50, 30);
-    scaleDropdow.setBounds(70, 10, 100, 30);
+    keyDropdow.setBounds(10, 10, 60, 30);
+    scaleDropdow.setBounds(90, 10, 100, 30);
     octDown.setBounds(10, 50, 50, 30);
+}
+
+void MidiGenAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
+    std::cout << keyDropdow.getText() << " | " << scaleDropdow.getText() << std::endl;
+    if (box == &keyDropdow || box == &scaleDropdow) {
+        midiGen::Scale newScale(keyDropdow.getText().toStdString(),
+                       scaleDropdow.getText().toStdString());
+        scale = newScale;
+        repaint();
+    }
 }

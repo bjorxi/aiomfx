@@ -10,11 +10,14 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "Scale.h"
+
 
 //==============================================================================
 /**
 */
-class MidiGenAudioProcessorEditor  : public juce::AudioProcessorEditor
+class MidiGenAudioProcessorEditor  : public juce::AudioProcessorEditor,
+private juce::ComboBox::Listener
 {
 public:
     MidiGenAudioProcessorEditor (MidiGenAudioProcessor&);
@@ -23,6 +26,7 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+    void comboBoxChanged(juce::ComboBox *box) override;
 
 private:
     // This reference is provided as a quick way for your editor to
@@ -31,7 +35,7 @@ private:
     juce::ComboBox keyDropdow;
     juce::ComboBox scaleDropdow;
     juce::ToggleButton octDown;
-    
+
     juce::Rectangle<int> keyC;
     juce::Rectangle<int> keyDb;
     juce::Rectangle<int> keyD;
@@ -44,7 +48,10 @@ private:
     juce::Rectangle<int> keyA;
     juce::Rectangle<int> keyBb;
     juce::Rectangle<int> keyB;
-    
-    std::map<std::string, juce::Rectangle<int>> keyStrToRect;
+
+    midiGen::Scale scale;
+
+    std::map<int, juce::Rectangle<int>> itor;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiGenAudioProcessorEditor)
 };
