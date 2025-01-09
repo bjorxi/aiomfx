@@ -32,8 +32,8 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     MidiGenAudioProcessor& audioProcessor;
-    juce::ComboBox keyDropdow;
-    juce::ComboBox scaleDropdow;
+    juce::ComboBox keyDropdown;
+    juce::ComboBox scaleDropdown;
     juce::ToggleButton octDown;
 
     juce::Rectangle<int> keyC;
@@ -52,6 +52,6 @@ private:
     midiGen::Scale scale;
 
     std::map<int, juce::Rectangle<int>> itor;
-
+    void setUpDropdown(juce::ComboBox &dropdown, std::vector<std::string> &options, int selectedOption, bool addListener);
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiGenAudioProcessorEditor)
 };

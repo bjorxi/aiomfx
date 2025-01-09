@@ -16,40 +16,20 @@ MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor&
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 300);
-    addAndMakeVisible(keyDropdow);
-    addAndMakeVisible(scaleDropdow);
+    addAndMakeVisible(keyDropdown);
+    addAndMakeVisible(scaleDropdown);
     addAndMakeVisible(octDown);
+    
+    std::vector<std::string> notes = {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"};
+    setUpDropdown(keyDropdown, notes, 1, true);
 
-    keyDropdow.setEditableText(false);
-    keyDropdow.addItem("C", 1);
-    keyDropdow.addItem("Db", 2);
-    keyDropdow.addItem("D", 3);
-    keyDropdow.addItem("Eb", 4);
-    keyDropdow.addItem("E", 5);
-    keyDropdow.addItem("F", 6);
-    keyDropdow.addItem("Gb", 7);
-    keyDropdow.addItem("G", 8);
-    keyDropdow.addItem("Ab", 9);
-    keyDropdow.addItem("A", 10);
-    keyDropdow.addItem("Bb", 11);
-    keyDropdow.addItem("B", 12);
-    keyDropdow.setSelectedId(1);
-    keyDropdow.addListener(this);
-
-    scaleDropdow.setEditableText(false);
-    scaleDropdow.addItem("Major", 1);
-    scaleDropdow.addItem("Minor", 2);
-    scaleDropdow.addItem("Lydian", 3);
-    scaleDropdow.addItem("Mixolydian", 4);
-    scaleDropdow.addItem("Spanish", 5);
-    scaleDropdow.addItem("Dorian", 6);
-    scaleDropdow.addItem("Phrygian", 7);
-    scaleDropdow.addItem("Harmonic Minor", 8);
-    scaleDropdow.addItem("Melodic Minor", 9);
-    scaleDropdow.addItem("Major Pentatonic", 10);
-    scaleDropdow.addItem("Minor Pentatonic", 11);
-    scaleDropdow.setSelectedId(1);
-    scaleDropdow.addListener(this);
+    
+    
+    std::vector<std::string> scalesNames = {"Major", "Minor",
+        "Lydian", "Mixolydian", "Spanish", "Dorian", "Phrygian",
+        "Harmonic Minor", "Melodic Minor", "Major Pentatonic", "Minor Pentatonic"};
+    
+    setUpDropdown(scaleDropdown, scalesNames, 1, true);
 
     octDown.setTitle("Oct Down");
     octDown.setButtonText("Oct Down");
@@ -119,17 +99,30 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
 
 void MidiGenAudioProcessorEditor::resized()
 {
-    keyDropdow.setBounds(10, 10, 60, 30);
-    scaleDropdow.setBounds(90, 10, 100, 30);
+    keyDropdown.setBounds(10, 10, 60, 30);
+    scaleDropdown.setBounds(90, 10, 100, 30);
     octDown.setBounds(10, 50, 50, 30);
 }
 
 void MidiGenAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
-    std::cout << keyDropdow.getText() << " | " << scaleDropdow.getText() << std::endl;
-    if (box == &keyDropdow || box == &scaleDropdow) {
-        midiGen::Scale newScale(keyDropdow.getText().toStdString(),
-                       scaleDropdow.getText().toStdString());
+    std::cout << keyDropdown.getText() << " | " << scaleDropdown.getText() << std::endl;
+    if (box == &keyDropdown || box == &scaleDropdown) {
+        midiGen::Scale newScale(keyDropdown.getText().toStdString(),
+                       scaleDropdown.getText().toStdString());
         scale = newScale;
         repaint();
     }
+}
+
+void MidiGenAudioProcessorEditor::setUpDropdown(juce::ComboBox &dropdown, std::vector<std::string> &options, int selectedOption, bool addListener) {
+    
+    for (int i = 0; i < options.size(); i++) {
+        dropdown.addItem(options[i], i+1);
+    }
+    
+    dropdown.setEditableText(false);
+    dropdown.setSelectedId(selectedOption);
+    
+    if (addListener)
+        dropdown.addListener(this);
 }
