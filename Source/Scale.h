@@ -66,7 +66,7 @@ public:
     std::string toStr();
     
     std::vector<Note> getNotes() {
-        return notes;
+    return notes;
     }
     std::set<Note> getNotesInScale();
     std::set<Note> getNotesNotInScale();

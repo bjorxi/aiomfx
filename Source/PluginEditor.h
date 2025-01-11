@@ -54,7 +54,7 @@ private:
         {"naturalNotActive", juce::Colour(23, 90, 105)},
         {"naturalActive", juce::Colour(59, 219, 255)},
         {"sharpNotActive", juce::Colour (12, 21, 25)},
-        {"sharpActive", juce::Colour(12, 21, 25)}
+        {"sharpActive", juce::Colour(22, 173, 209)},
     };
     
     std::map<int, juce::Rectangle<int>> itor;

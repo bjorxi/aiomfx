@@ -18,18 +18,18 @@ void Scale::paint(juce::Graphics &g) {
 // WWHWWWH
 void Scale::buildMajorScale() {
     std::vector<int> intervals {2,2,1,2,2,2,1};
-    int noteId = ktoi[key];
-    
+    int noteId = ktoi[key]-1;
+    std::cout << "Scale::buildMajorScale::noteId " << noteId << std::endl;
     notes[noteId].setInScale(true);
     
     for (auto interval : intervals) {
         noteId += interval;
         
-        if (noteId > 12) {
-            noteId = noteId % 12;
+        if (noteId > 11) {
+            noteId = noteId - 12;
         }
-        
-        notes[noteId-1].setInScale(true);
+        std::cout << "Scale::buildMajorScale::noteId::loop " << noteId << std::endl;
+        notes[noteId].setInScale(true);
     }
 }
 
@@ -37,18 +37,18 @@ void Scale::buildMajorScale() {
 void Scale::buildMinorScale() {
     std::vector<int> intervals {2,1,2,2,1,2,2};
     
-    int noteId = ktoi[key];
+    int noteId = ktoi[key]-1;
     
     notes[noteId].setInScale(true);
     
     for (auto interval : intervals) {
         noteId += interval;
         
-        if (noteId > 12) {
-            noteId = noteId % 12;
+        if (noteId > 11) {
+            noteId = noteId - 12;
         }
         
-        notes[noteId-1].setInScale(true);
+        notes[noteId].setInScale(true);
     }
 }
 
