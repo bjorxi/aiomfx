@@ -4,28 +4,59 @@
 
 namespace midiGen {
 
+class Note {
+    int kid;
+    std::string name;
+    int octave;
+    bool isNatural;
+    bool inScale = false;
+    
+public:
+    bool operator <(const Note& b) const
+    {
+       return kid < b.getKid();
+    }
+    
+    Note(int kid, std::string name, bool isNatural) : kid(kid), name(name), isNatural(isNatural) {};
+    int getKid() const {
+        return kid;
+    }
+    
+    void setInScale(bool val) {
+        inScale = val;
+    }
+    
+    std::string getName() {
+        return name;
+    }
+    
+    bool getIsNatural() {
+        return isNatural;
+    }
+    
+    bool getInScale() {
+        return inScale;
+    }
+};
+
+
 class Scale {
     std::string key;
     std::string name;
-    std::set<int> notesInScale;
+    
+    std::vector<Note> notes {
+        Note(1, "C", true), Note(2, "Db", false), Note(3, "D", true),
+        Note(4, "Eb", false), Note(5, "E", true), Note(6, "F", true),
+        Note(7, "Gb", false), Note(8, "G", true), Note(9, "Ab", false),
+        Note(10, "A",  true), Note(11, "Bb",  false), Note(12, "B", true)
+    };
     
     std::map<std::string, int> ktoi {
-        {"C", 1},
-        {"Db", 2},
-        {"D", 3},
-        {"Eb", 4},
-        {"E", 5},
-        {"F", 6},
-        {"Gb", 7},
-        {"G", 8},
-        {"Ab", 9},
-        {"A", 10},
-        {"Bb", 11},
-        {"B", 12}
+        {"C", 1},{"Db", 2},{"D", 3},{"Eb", 4},{"E", 5},{"F", 6},
+        {"Gb", 7},{"G", 8},{"Ab", 9},{"A", 10},{"Bb", 11},{"B", 12}
     };
     void buildMajorScale();
     void buildMinorScale();
-    
     
 public:
     Scale();
@@ -33,8 +64,11 @@ public:
 
     void paint(juce::Graphics& g);
     std::string toStr();
-    std::set<int> getNotesInScale() {
-        return notesInScale;
-    };
+    
+    std::vector<Note> getNotes() {
+        return notes;
+    }
+    std::set<Note> getNotesInScale();
+    std::set<Note> getNotesNotInScale();
 };
 }

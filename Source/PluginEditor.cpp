@@ -71,30 +71,57 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
-    g.setColour (juce::Colours::white);
-    g.fillRect(keyC);
-    g.fillRect(keyD);
-    g.fillRect(keyE);
-    g.fillRect(keyF);
-    g.fillRect(keyG);
-    g.fillRect(keyA);
-    g.fillRect(keyB);
-
-    g.setColour (juce::Colours::black);
-    g.fillRect(keyDb);
-    g.fillRect(keyEb);
-    g.fillRect(keyGb);
-    g.fillRect(keyAb);
-    g.fillRect(keyBb);
-
-    auto notesInScale = scale.getNotesInScale();
-
-    g.setColour(juce::Colour(59, 219, 255));
-    for (auto it : itor) {
-        if (notesInScale.count(it.first) > 0) {
-            g.fillRect(it.second);
+//    g.setColour (juce::Colours::white);
+//    g.fillRect(keyC);
+//    g.fillRect(keyD);
+//    g.fillRect(keyE);
+//    g.fillRect(keyF);
+//    g.fillRect(keyG);
+//    g.fillRect(keyA);
+//    g.fillRect(keyB);
+//
+//    g.setColour (juce::Colours::black);
+//    g.fillRect(keyDb);
+//    g.fillRect(keyEb);
+//    g.fillRect(keyGb);
+//    g.fillRect(keyAb);
+//    g.fillRect(keyBb);
+    
+    
+    g.setColour(notesColours["naturalActive"]);
+    for (auto note : scale.getNotes()) {
+        if (note.getIsNatural()) {
+            g.fillRect(itor[note.getKid()]);
         }
     }
+    
+    g.setColour(juce::Colours::black);
+    for (auto note : scale.getNotes()) {
+        if (!note.getIsNatural()) {
+            g.fillRect(itor[note.getKid()]);
+        }
+    }
+    
+    
+
+//    auto notesInScale = scale.getNotesInScale();
+//    g.setColour(juce::Colour(59, 219, 255));
+//    for (auto note : notesInScale) {
+//        g.fillRect(itor[note.getKid()]);
+//    }
+//    
+//    auto notesNoteInScale = scale.getNotesNotInScale();
+//    g.setColour(juce::Colour(79, 219, 255));
+//    for (auto note : notesNoteInScale) {
+//            g.fillRect(itor[note.getKid()]);
+//    }
+
+//    g.setColour(juce::Colour(59, 219, 255));
+//    for (auto it : itor) {
+//        if (notesInScale.count(it.first) > 0) {
+//            g.fillRect(it.second);
+//        }
+//    }
 }
 
 void MidiGenAudioProcessorEditor::resized()

@@ -50,7 +50,13 @@ private:
     juce::Rectangle<int> keyB;
 
     midiGen::Scale scale;
-
+    std::map<std::string, juce::Colour> notesColours{
+        {"naturalNotActive", juce::Colour(23, 90, 105)},
+        {"naturalActive", juce::Colour(59, 219, 255)},
+        {"sharpNotActive", juce::Colour (12, 21, 25)},
+        {"sharpActive", juce::Colour(12, 21, 25)}
+    };
+    
     std::map<int, juce::Rectangle<int>> itor;
     void setUpDropdown(juce::ComboBox &dropdown, std::vector<std::string> &options, int selectedOption, bool addListener);
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiGenAudioProcessorEditor)

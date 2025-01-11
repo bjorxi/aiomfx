@@ -18,42 +18,67 @@ void Scale::paint(juce::Graphics &g) {
 // WWHWWWH
 void Scale::buildMajorScale() {
     std::vector<int> intervals {2,2,1,2,2,2,1};
-    int keyId = ktoi[key];
+    int noteId = ktoi[key];
+    
+    notes[noteId].setInScale(true);
     
     for (auto interval : intervals) {
-        keyId += interval;
+        noteId += interval;
         
-        if (keyId <= 12) {
-            notesInScale.insert(keyId);
-        } else {
-            notesInScale.insert(keyId % 12);
+        if (noteId > 12) {
+            noteId = noteId % 12;
         }
+        
+        notes[noteId-1].setInScale(true);
     }
 }
 
 // W‑H‑W‑W‑H‑W‑W
 void Scale::buildMinorScale() {
     std::vector<int> intervals {2,1,2,2,1,2,2};
-    int keyId = ktoi[key];
+    
+    int noteId = ktoi[key];
+    
+    notes[noteId].setInScale(true);
     
     for (auto interval : intervals) {
-        keyId += interval;
+        noteId += interval;
         
-        if (keyId <= 12) {
-            notesInScale.insert(keyId);
-        } else {
-            notesInScale.insert(keyId % 12);
+        if (noteId > 12) {
+            noteId = noteId % 12;
         }
+        
+        notes[noteId-1].setInScale(true);
     }
 }
 
 std::string Scale::toStr() {
     std::stringstream s;
     
-    for (auto note : notesInScale)
-        s << note << " ";
+    for (auto note : notes)
+        s << note.getKid() << " ";
     
     return s.str();
+}
+
+std::set<Note> Scale::getNotesInScale() {
+    std::set<Note> out;
+    
+    for (auto note : notes) {
+        if (note.getInScale())
+            out.insert(note);
+    }
+    return out;
+}
+
+std::set<Note> Scale::getNotesNotInScale() {
+    std::set<Note> out;
+    
+    for (auto note : notes) {
+        if (!note.getInScale())
+            out.insert(note);
+    }
+    return out;
 }
 
 }; // namespace midiGen
