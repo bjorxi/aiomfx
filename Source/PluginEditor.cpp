@@ -35,16 +35,16 @@ MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor&
     octDown.setButtonText("Oct Down");
 
     keyC = juce::Rectangle<int>(10, 90, 20, 50);
-    keyDb = juce::Rectangle<int>(20, 90, 20, 25);
+    keyDb = juce::Rectangle<int>(22, 90, 15, 25);
     keyD = juce::Rectangle<int>(31, 90, 20, 50);
-    keyEb = juce::Rectangle<int>(41, 90, 20, 25);
+    keyEb = juce::Rectangle<int>(43, 90, 15, 25);
     keyE = juce::Rectangle<int>(52, 90, 20, 50);
     keyF = juce::Rectangle<int>(73, 90, 20, 50);
-    keyGb = juce::Rectangle<int>(83, 90, 20, 25);
+    keyGb = juce::Rectangle<int>(85, 90, 15, 25);
     keyG = juce::Rectangle<int>(94, 90, 20, 50);
-    keyAb = juce::Rectangle<int>(104, 90, 20, 25);
+    keyAb = juce::Rectangle<int>(106, 90, 15, 25);
     keyA = juce::Rectangle<int>(115, 90, 20, 50);
-    keyBb = juce::Rectangle<int>(125, 90, 20, 25);
+    keyBb = juce::Rectangle<int>(127, 90, 15, 25);
     keyB = juce::Rectangle<int>(136, 90, 20, 50);
 
     itor[1] = keyC;
