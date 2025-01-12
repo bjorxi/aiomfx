@@ -19,16 +19,16 @@ MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor&
     addAndMakeVisible(keyDropdown);
     addAndMakeVisible(scaleDropdown);
     addAndMakeVisible(octDown);
-    
+
     std::vector<std::string> notes = {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"};
     setUpDropdown(keyDropdown, notes, 1, true);
 
-    
-    
+
+
     std::vector<std::string> scalesNames = {"Major", "Minor",
         "Lydian", "Mixolydian", "Spanish", "Dorian", "Phrygian",
         "Harmonic Minor", "Melodic Minor", "Major Pentatonic", "Minor Pentatonic"};
-    
+
     setUpDropdown(scaleDropdown, scalesNames, 1, true);
 
     octDown.setTitle("Oct Down");
@@ -59,10 +59,13 @@ MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor&
     itor[10] = keyA;
     itor[11] = keyBb;
     itor[12] = keyB;
+    
+    juce::Timer::startTimer(2);
 }
 
 MidiGenAudioProcessorEditor::~MidiGenAudioProcessorEditor()
 {
+    juce::Timer::stopTimer();
 }
 
 //==============================================================================
@@ -71,7 +74,7 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
-    
+
     for (auto note : scale.getNotes()) {
         if (note.getIsNatural()) {
             if (note.getInScale()) {
@@ -81,9 +84,18 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
                 g.setColour(notesColours["naturalNotActive"]);
                 g.fillRect(itor[note.getKid()]);
             }
+            
+            if (note.getKid() == currentNoteNumber) {
+                g.setColour(juce::Colours::orange);
+                g.fillRect(itor[note.getKid()]);
+            }
         }
+        
+        
     }
     
+    // sharps and flats have to be painted after the naturals because order of painting
+    // matters in juce. this way shaprs/flat are drawn correctly on top of naturals
     for (auto note : scale.getNotes()) {
         if (!note.getIsNatural()) {
             if (note.getInScale()) {
@@ -93,7 +105,14 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
                 g.setColour(notesColours["sharpNotActive"]);
                 g.fillRect(itor[note.getKid()]);
             }
+            
+            if (note.getKid() == currentNoteNumber) {
+                g.setColour(juce::Colours::orange);
+                g.fillRect(itor[note.getKid()]);
+            }
         }
+        
+        
     }
 }
 
@@ -115,14 +134,24 @@ void MidiGenAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
 }
 
 void MidiGenAudioProcessorEditor::setUpDropdown(juce::ComboBox &dropdown, std::vector<std::string> &options, int selectedOption, bool addListener) {
-    
+
     for (int i = 0; i < options.size(); i++) {
         dropdown.addItem(options[i], i+1);
     }
-    
+
     dropdown.setEditableText(false);
     dropdown.setSelectedId(selectedOption);
-    
+
     if (addListener)
         dropdown.addListener(this);
+}
+
+void MidiGenAudioProcessorEditor::timerCallback() {
+    currentNoteNumber = audioProcessor.getCurrentNoteNumber();
+    if (currentNoteNumber > 0) {
+        currentNoteNumber = currentNoteNumber % 12 + 1;
+        repaint();
+    }
+    
+    
 }

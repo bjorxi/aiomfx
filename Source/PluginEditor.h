@@ -16,7 +16,7 @@
 //==============================================================================
 /**
 */
-class MidiGenAudioProcessorEditor  : public juce::AudioProcessorEditor,
+class MidiGenAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Timer,
 private juce::ComboBox::Listener
 {
 public:
@@ -27,6 +27,7 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
     void comboBoxChanged(juce::ComboBox *box) override;
+    void timerCallback() override;
 
 private:
     // This reference is provided as a quick way for your editor to
@@ -56,8 +57,11 @@ private:
         {"sharpNotActive", juce::Colour (12, 21, 25)},
         {"sharpActive", juce::Colour(22, 173, 209)},
     };
-    
+
     std::map<int, juce::Rectangle<int>> itor;
     void setUpDropdown(juce::ComboBox &dropdown, std::vector<std::string> &options, int selectedOption, bool addListener);
+    
+    int currentNoteNumber;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiGenAudioProcessorEditor)
 };
