@@ -96,7 +96,7 @@ std::string Scale::toStr() {
     std::stringstream s;
     
     for (auto note : notes)
-        s << note.getKid() << " ";
+        s << note.getId() << " ";
     
     return s.str();
 }

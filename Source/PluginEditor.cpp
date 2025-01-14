@@ -80,15 +80,15 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
         if (note.getIsNatural()) {
             if (note.getInScale()) {
                 g.setColour(notesColours["naturalActive"]);
-                g.fillRect(itor[note.getKid()]);
+                g.fillRect(itor[note.getId()]);
             } else {
                 g.setColour(notesColours["naturalNotActive"]);
-                g.fillRect(itor[note.getKid()]);
+                g.fillRect(itor[note.getId()]);
             }
             
-            if (note.getKid() == currentNoteNumber) {
+            if (note.getId() == currentNoteNumber) {
                 g.setColour(juce::Colours::orange);
-                g.fillRect(itor[note.getKid()]);
+                g.fillRect(itor[note.getId()]);
             }
         }
         
@@ -101,15 +101,15 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
         if (!note.getIsNatural()) {
             if (note.getInScale()) {
                 g.setColour(notesColours["sharpActive"]);
-                g.fillRect(itor[note.getKid()]);
+                g.fillRect(itor[note.getId()]);
             } else {
                 g.setColour(notesColours["sharpNotActive"]);
-                g.fillRect(itor[note.getKid()]);
+                g.fillRect(itor[note.getId()]);
             }
             
-            if (note.getKid() == currentNoteNumber) {
+            if (note.getId() == currentNoteNumber) {
                 g.setColour(juce::Colours::orange);
-                g.fillRect(itor[note.getKid()]);
+                g.fillRect(itor[note.getId()]);
             }
         }
         

@@ -4,10 +4,15 @@
 
 namespace midiGen {
 
+#define MIN_NOTE_NUMBER 21;
+#define MAX_NOTE_NUMBER 108;
+
+
+
 extern std::map<int, int> CMajorMap;
 
 class Note {
-    int kid;
+    int id;
     std::string name;
     int octave;
     bool isNatural;
@@ -16,12 +21,12 @@ class Note {
 public:
     bool operator <(const Note& b) const
     {
-       return kid < b.getKid();
+       return id < b.getId();
     }
     
-    Note(int kid, std::string name, bool isNatural) : kid(kid), name(name), isNatural(isNatural) {};
-    int getKid() const {
-        return kid;
+    Note(int kid, std::string name, bool isNatural) : id(kid), name(name), isNatural(isNatural) {};
+    int getId() const {
+        return id;
     }
     
     void setInScale(bool val) {
