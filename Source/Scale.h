@@ -4,6 +4,8 @@
 
 namespace midiGen {
 
+extern std::map<int, int> CMajorMap;
+
 class Note {
     int kid;
     std::string name;
@@ -59,7 +61,7 @@ class Scale {
     void buildMinorScale();
     
 public:
-    Scale();
+    Scale() {};
     Scale(std::string key, std::string name);
 
     void paint(juce::Graphics& g);
@@ -70,5 +72,6 @@ public:
     }
     std::set<Note> getNotesInScale();
     std::set<Note> getNotesNotInScale();
+    int adjustToScale(int noteNumber);
 };
 }

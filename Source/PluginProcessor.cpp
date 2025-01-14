@@ -137,17 +137,29 @@ void MidiGenAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     
     juce::MidiBuffer newBuffer;
     int sampleNumber = 0;
+    
+    
     for (const juce::MidiMessageMetadata metadata : midiMessages) {
-        DBG(metadata.getMessage().getDescription());
         auto msg = metadata.getMessage();
+    
+        int tmpCurrentNoteNumber = scale.adjustToScale(msg.getNoteNumber());
+//        DBG(metadata.getMessage().getDescription());
+        
         if (msg.isNoteOn()) {
-            setCurrentNoteNumer(msg.getNoteNumber());
-        }
-        else {
+            
+            setCurrentNoteNumer(tmpCurrentNoteNumber);
+            newBuffer.addEvent(msg, sampleNumber);
+            newBuffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), tmpCurrentNoteNumber+4, msg.getVelocity()), sampleNumber);
+            newBuffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), tmpCurrentNoteNumber+7, msg.getVelocity()), sampleNumber);
+        } else if (msg.isNoteOff()) {
+            newBuffer.addEvent(msg, sampleNumber);
+            newBuffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), tmpCurrentNoteNumber+4, msg.getVelocity()), sampleNumber);
+            newBuffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), tmpCurrentNoteNumber+7, msg.getVelocity()), sampleNumber);
+            setCurrentNoteNumer(-1);
+        } else {
+            newBuffer.addEvent(msg, sampleNumber);
             setCurrentNoteNumer(-1);
         }
-        
-        newBuffer.addEvent(msg, sampleNumber);
     }
     midiMessages.swapWith(newBuffer);
     
@@ -214,4 +226,8 @@ void MidiGenAudioProcessor::setCurrentNoteNumer(int val) {
 
 int MidiGenAudioProcessor::getCurrentNoteNumber() {
     return currentNoteNumer;
+}
+
+void MidiGenAudioProcessor::setScale(midiGen::Scale &scale) {
+    this->scale = scale;
 }

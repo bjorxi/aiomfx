@@ -15,6 +15,7 @@ MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor&
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+    audioProcessor.setScale(scale);
     setSize (400, 300);
     addAndMakeVisible(keyDropdown);
     addAndMakeVisible(scaleDropdown);
@@ -124,11 +125,12 @@ void MidiGenAudioProcessorEditor::resized()
 }
 
 void MidiGenAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
-    std::cout << keyDropdown.getText() << " | " << scaleDropdown.getText() << std::endl;
+//    std::cout << keyDropdown.getText() << " | " << scaleDropdown.getText() << std::endl;
     if (box == &keyDropdown || box == &scaleDropdown) {
         midiGen::Scale newScale(keyDropdown.getText().toStdString(),
                        scaleDropdown.getText().toStdString());
         scale = newScale;
+        audioProcessor.setScale(newScale);
         repaint();
     }
 }
@@ -152,6 +154,4 @@ void MidiGenAudioProcessorEditor::timerCallback() {
         currentNoteNumber = currentNoteNumber % 12 + 1;
         repaint();
     }
-    
-    
 }
