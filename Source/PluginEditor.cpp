@@ -18,7 +18,7 @@ MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor&
     setSize (400, 300);
     addAndMakeVisible(keyDropdown);
     addAndMakeVisible(scaleDropdown);
-    addAndMakeVisible(octDown);
+//    addAndMakeVisible(octDown);
 
     std::vector<std::string> notes = {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"};
     setUpDropdown(keyDropdown, notes, 1, true);
@@ -73,7 +73,7 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
+//    g.fillAll(backgroundColour);
 
     for (auto note : scale.getNotes()) {
         if (note.getIsNatural()) {

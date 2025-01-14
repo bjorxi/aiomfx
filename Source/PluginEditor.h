@@ -57,6 +57,12 @@ private:
         {"sharpNotActive", juce::Colour (12, 21, 25)},
         {"sharpActive", juce::Colour(22, 173, 209)},
     };
+    
+//    std::map<std::string, juce::Colour> colours{
+//        {"background": }
+//    };
+    
+    juce::Colour backgroundColour = juce::Colour(234, 229, 219);
 
     std::map<int, juce::Rectangle<int>> itor;
     void setUpDropdown(juce::ComboBox &dropdown, std::vector<std::string> &options, int selectedOption, bool addListener);
