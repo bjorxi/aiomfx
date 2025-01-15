@@ -55,41 +55,43 @@ void Scale::paint(juce::Graphics &g) {
     
 }
 
-// WWHWWWH
-void Scale::buildMajorScale() {
-    std::vector<int> intervals {2,2,1,2,2,2,1};
-    int noteId = ktoi[key]-1;
-//    std::cout << "Scale::buildMajorScale::noteId " << noteId << std::endl;
+
+void Scale::buildScale(std::vector<int> &intervals, std::vector<int> &chordTypes) {
+    int noteId = keyToNoteNum[key];
     notes[noteId].setInScale(true);
-    
-    for (auto interval : intervals) {
-        noteId += interval;
-        
+    notes[noteId].setChordType(chordTypes[0]);
+    std::cout << "\n==Scale root: " << notes[noteId].getName() << std::endl;
+    for (int i = 0; i < intervals.size(); i++) {
+        noteId += intervals[i];
+        std::cout << "\nInterval intervals[i] " << intervals[i] << std::endl;
+        std::cout << "- Key: " << noteId << "; ChordType: " << chordTypes[i] << std::endl;
         if (noteId > 11) {
             noteId = noteId - 12;
         }
-//        std::cout << "Scale::buildMajorScale::noteId::loop " << noteId << std::endl;
+        
         notes[noteId].setInScale(true);
+        notes[noteId].setChordType(chordTypes[i+1]);
+        std::cout << "+Key: " << notes[noteId].getName() << "; ChordType: " << chordTypes[i+1] << std::endl;
     }
+    
+}
+
+// WWHWWWH
+void Scale::buildMajorScale() {
+    std::vector<int> intervals {2,2,1,2,2,2};
+    std::vector<int> chordTypes {
+        Note::chordTypeMajor, Note::chordTypeMinor, Note::chordTypeMinor,
+        Note::chordTypeMajor, Note::chordTypeMajor, Note::chordTypeMinor, Note::chordTypeMinor5};
+    buildScale(intervals, chordTypes);
 }
 
 // W‑H‑W‑W‑H‑W‑W
 void Scale::buildMinorScale() {
-    std::vector<int> intervals {2,1,2,2,1,2,2};
-    
-    int noteId = ktoi[key]-1;
-    
-    notes[noteId].setInScale(true);
-    
-    for (auto interval : intervals) {
-        noteId += interval;
-        
-        if (noteId > 11) {
-            noteId = noteId - 12;
-        }
-        
-        notes[noteId].setInScale(true);
-    }
+    std::vector<int> intervals {2,1,2,2,1,2};
+    std::vector<int> chordTypes {
+        Note::chordTypeMinor, Note::chordTypeMinor5, Note::chordTypeMajor,
+        Note::chordTypeMinor, Note::chordTypeMinor, Note::chordTypeMajor, Note::chordTypeMajor};
+    buildScale(intervals, chordTypes);
 }
 
 std::string Scale::toStr() {
@@ -128,5 +130,9 @@ int Scale::adjustToScale(int noteNumber) {
     return noteNumber;
 }
 
+std::vector<int> Scale::getChordIntervals(int noteNumber, int numOfNotes=3) {
+    noteNumber = noteNumber % 12;
+    return notes[noteNumber].getChordIntervals(numOfNotes);
+}
 
 }; // namespace midiGen
