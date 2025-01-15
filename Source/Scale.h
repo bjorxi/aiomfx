@@ -4,24 +4,27 @@
 
 namespace midiGen {
 
-extern std::map<int, int> CMajorMap;
-
 class Note {
-    int kid;
+    int id;
     std::string name;
     int octave;
     bool isNatural;
     bool inScale = false;
+    int chordType;
     
 public:
+    static const int chordTypeMajor = 1;
+    static const int chordTypeMinor = 2;
+    static const int chordTypeMinor5 = 3;
+    
     bool operator <(const Note& b) const
     {
-       return kid < b.getKid();
+        return id < b.getId();
     }
     
-    Note(int kid, std::string name, bool isNatural) : kid(kid), name(name), isNatural(isNatural) {};
-    int getKid() const {
-        return kid;
+    Note(int kid, std::string name, bool isNatural) : id(kid), name(name), isNatural(isNatural) {};
+    int getId() const {
+        return id;
     }
     
     void setInScale(bool val) {
@@ -39,6 +42,26 @@ public:
     bool getInScale() {
         return inScale;
     }
+    
+    void setChordType(int val) {
+        chordType = val;
+    }
+    
+    int getChordType() {
+        return chordType;
+    }
+    
+    std::vector<int> getChordIntervals(int notes=3) {
+        if (chordType == Note::chordTypeMajor) {
+            return std::vector<int> {4,7};
+        } else if (chordType == Note::chordTypeMinor) {
+            return std::vector<int> {3,7};
+        } else if (chordType == Note::chordTypeMinor5) {
+            return std::vector<int> {3, 8};
+        }
+        
+        return {1,2,3};
+    }
 };
 
 
@@ -53,14 +76,22 @@ class Scale {
         Note(10, "A",  true), Note(11, "Bb",  false), Note(12, "B", true)
     };
     
-    std::map<std::string, int> ktoi {
-        {"C", 1},{"Db", 2},{"D", 3},{"Eb", 4},{"E", 5},{"F", 6},
-        {"Gb", 7},{"G", 8},{"Ab", 9},{"A", 10},{"Bb", 11},{"B", 12}
+    std::map<std::string, int> keyToNoteNum {
+        {"C", 0},{"Db", 1},{"D", 2},{"Eb", 3},{"E", 4},{"F", 5},
+        {"Gb", 6},{"G", 7},{"Ab", 8},{"A", 9},{"Bb", 10},{"B", 11}
     };
+    
+    std::map<int, int> scaleMapping;
+    
     void buildMajorScale();
     void buildMinorScale();
+    void buildScale(std::vector<int> &intervals, std::vector<int> &chordTypes);
+    void buildScaleMap();
     
 public:
+    static const std::string scaleNameMajor;
+    static const std::string scaleNameMinor;
+    
     Scale() {};
     Scale(std::string key, std::string name);
 
@@ -73,5 +104,6 @@ public:
     std::set<Note> getNotesInScale();
     std::set<Note> getNotesNotInScale();
     int adjustToScale(int noteNumber);
+    std::vector<int> getChordIntervals(int noteNumber, int numOfNotes);
 };
 }

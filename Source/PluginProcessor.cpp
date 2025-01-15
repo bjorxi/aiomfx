@@ -135,27 +135,25 @@ void MidiGenAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
     
 //    midiProcessor.processBlock(midiMessages);
     
-    juce::MidiBuffer newBuffer;
-    int sampleNumber = 0;
-    
+    juce::MidiBuffer newBuffer;    
     
     for (const juce::MidiMessageMetadata metadata : midiMessages) {
         auto msg = metadata.getMessage();
-    
-        int tmpCurrentNoteNumber = scale.adjustToScale(msg.getNoteNumber());
-//        DBG(metadata.getMessage().getDescription());
-        
+        int sampleNumber = msg.getTimeStamp();
+        int adjustedNoteNumber = scale.adjustToScale(msg.getNoteNumber());
+        std::vector<int> chordIntervals = scale.getChordIntervals(adjustedNoteNumber, 3);
         if (msg.isNoteOn()) {
-            
-            setCurrentNoteNumer(tmpCurrentNoteNumber);
-            newBuffer.addEvent(msg, sampleNumber);
-            newBuffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), tmpCurrentNoteNumber+4, msg.getVelocity()), sampleNumber);
-            newBuffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), tmpCurrentNoteNumber+7, msg.getVelocity()), sampleNumber);
+            setCurrentNoteNumer(adjustedNoteNumber);
+//            newBuffer.addEvent(msg, sampleNumber);
+            newBuffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedNoteNumber, msg.getVelocity()), sampleNumber);
+            for (auto interval : chordIntervals)
+                newBuffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedNoteNumber+interval, msg.getVelocity()), sampleNumber);
         } else if (msg.isNoteOff()) {
-            newBuffer.addEvent(msg, sampleNumber);
-            newBuffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), tmpCurrentNoteNumber+4, msg.getVelocity()), sampleNumber);
-            newBuffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), tmpCurrentNoteNumber+7, msg.getVelocity()), sampleNumber);
             setCurrentNoteNumer(-1);
+            newBuffer.addEvent(msg, sampleNumber);
+            newBuffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedNoteNumber, msg.getVelocity()), sampleNumber);
+            for (auto interval : chordIntervals)
+                newBuffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedNoteNumber+interval, msg.getVelocity()), sampleNumber);
         } else {
             newBuffer.addEvent(msg, sampleNumber);
             setCurrentNoteNumer(-1);
