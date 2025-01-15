@@ -4,14 +4,6 @@
 
 namespace midiGen {
 
-#define MIN_NOTE_NUMBER 21;
-#define MAX_NOTE_NUMBER 108;
-
-#define CHORD_TYPE_MAJOR 1;
-#define CHORD_TYPE_MINOR 2;
-#define CHORD_TYPE_MINOR5 3;
-
-
 extern std::map<int, int> CMajorMap;
 
 class Note {
@@ -92,12 +84,18 @@ class Scale {
         {"C", 0},{"Db", 1},{"D", 2},{"Eb", 3},{"E", 4},{"F", 5},
         {"Gb", 6},{"G", 7},{"Ab", 8},{"A", 9},{"Bb", 10},{"B", 11}
     };
-
+    
+    std::map<int, int> scaleMapping;
+    
     void buildMajorScale();
     void buildMinorScale();
     void buildScale(std::vector<int> &intervals, std::vector<int> &chordTypes);
+    void buildScaleMap();
     
 public:
+    static const std::string scaleNameMajor;
+    static const std::string scaleNameMinor;
+    
     Scale() {};
     Scale(std::string key, std::string name);
 

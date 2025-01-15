@@ -42,6 +42,10 @@ std::map<int, int> CMajorMap = std::map<int, int> {
 };
 
 
+const std::string Scale::scaleNameMajor = "Major";
+const std::string Scale::scaleNameMinor = "Minor";
+
+
 
 Scale::Scale(std::string key, std::string name) : key(key), name(name) {
     if (name == "Major")
@@ -73,6 +77,8 @@ void Scale::buildScale(std::vector<int> &intervals, std::vector<int> &chordTypes
         notes[noteId].setChordType(chordTypes[i+1]);
         std::cout << "+Key: " << notes[noteId].getName() << "; ChordType: " << chordTypes[i+1] << std::endl;
     }
+    
+    buildScaleMap();
     
 }
 
@@ -124,8 +130,8 @@ std::set<Note> Scale::getNotesNotInScale() {
 }
 
 int Scale::adjustToScale(int noteNumber) {
-    if (CMajorMap.count(noteNumber) > 0)
-        return CMajorMap[noteNumber];
+    if (scaleMapping.count(noteNumber) > 0)
+        return scaleMapping[noteNumber];
     
     return noteNumber;
 }
@@ -133,6 +139,40 @@ int Scale::adjustToScale(int noteNumber) {
 std::vector<int> Scale::getChordIntervals(int noteNumber, int numOfNotes=3) {
     noteNumber = noteNumber % 12;
     return notes[noteNumber].getChordIntervals(numOfNotes);
+}
+
+void Scale::buildScaleMap() {
+    int minNoteNumber = 21;
+    int maxNoteNumber = 108;
+    std::set<int> notesNumsInScale;
+    
+    for (auto note : getNotesInScale()) {
+        // note ids start with 1
+        notesNumsInScale.insert(note.getId()-1);
+        std::cout << "ScaleMapping::__noteNum is in scale " << note.getId() << std::endl;
+    }
+//    std::map<std::string, int> keyToFirstNoteNumInScale {
+//        {"A", 21}, {"Bb", 22}, {"B", 23}, {"C", 24}, {"Cb", 25},
+//        {"D", 26}, {"Db", 27}, {"E", 28}, {"F", 29}, {"Fb", 30},
+//        {"G", 31}, {"Gb", 32}, {"A", 33}, {"Ab", 34}
+//    };
+    
+    if (name == Scale::scaleNameMajor) {
+        std::vector<int> intervals {2,2,1,2,2,2,1};
+        
+        for (int noteNum = minNoteNumber; noteNum <= maxNoteNumber; noteNum++) {
+            
+            if (notesNumsInScale.count(noteNum % 12) == 0) {
+                scaleMapping[noteNum] = noteNum - 1;
+                std::cout << "ScaleMapping:: noteNum is not in scale " << noteNum << std::endl;
+            }
+            std::cout << "ScaleMapping:: noteNum is in scale " << noteNum << std::endl;
+        }
+    }
+    
+    for (auto elem : scaleMapping) {
+        std::cout << "ScaleMapping::Map " << elem.first << " => " << elem.second << std::endl;
+    }
 }
 
 }; // namespace midiGen
