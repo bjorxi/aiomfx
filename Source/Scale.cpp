@@ -111,18 +111,16 @@ void Scale::buildScaleMap() {
 //        std::cout << "ScaleMapping::__noteNum is in scale " << note.getId() << std::endl;
     }
 
-    if (name == Scale::scaleNameMajor) {
-        std::vector<int> intervals {2,2,1,2,2,2,1};
         
-        for (int noteNum = minNoteNumber; noteNum <= maxNoteNumber; noteNum++) {
-            
-            if (notesNumsInScale.count(noteNum % 12) == 0) {
-                scaleMapping[noteNum] = noteNum - 1;
+    for (int noteNum = minNoteNumber; noteNum <= maxNoteNumber; noteNum++) {
+        
+        if (notesNumsInScale.count(noteNum % 12) == 0) {
+            scaleMapping[noteNum] = noteNum - 1;
 //                std::cout << "ScaleMapping:: noteNum is not in scale " << noteNum << std::endl;
-            }
-//            std::cout << "ScaleMapping:: noteNum is in scale " << noteNum << std::endl;
         }
+//            std::cout << "ScaleMapping:: noteNum is in scale " << noteNum << std::endl;
     }
+
     
 //    for (auto elem : scaleMapping) {
 //        std::cout << "ScaleMapping::Map " << elem.first << " => " << elem.second << std::endl;
