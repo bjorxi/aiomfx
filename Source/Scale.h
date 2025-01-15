@@ -4,8 +4,6 @@
 
 namespace midiGen {
 
-extern std::map<int, int> CMajorMap;
-
 class Note {
     int id;
     std::string name;
@@ -13,8 +11,6 @@ class Note {
     bool isNatural;
     bool inScale = false;
     int chordType;
-    
-    
     
 public:
     static const int chordTypeMajor = 1;
