@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor& p)
+PlatooAudioProcessorEditor::PlatooAudioProcessorEditor (PlatooAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p), scale("C", "Major")
 {
     // Make sure that before the constructor has finished, you've set the
@@ -64,13 +64,13 @@ MidiGenAudioProcessorEditor::MidiGenAudioProcessorEditor (MidiGenAudioProcessor&
     juce::Timer::startTimer(2);
 }
 
-MidiGenAudioProcessorEditor::~MidiGenAudioProcessorEditor()
+PlatooAudioProcessorEditor::~PlatooAudioProcessorEditor()
 {
     juce::Timer::stopTimer();
 }
 
 //==============================================================================
-void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
+void PlatooAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
@@ -117,14 +117,14 @@ void MidiGenAudioProcessorEditor::paint (juce::Graphics& g)
     }
 }
 
-void MidiGenAudioProcessorEditor::resized()
+void PlatooAudioProcessorEditor::resized()
 {
     keyDropdown.setBounds(10, 10, 60, 30);
     scaleDropdown.setBounds(90, 10, 100, 30);
     octDown.setBounds(10, 50, 50, 30);
 }
 
-void MidiGenAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
+void PlatooAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
 //    std::cout << keyDropdown.getText() << " | " << scaleDropdown.getText() << std::endl;
     if (box == &keyDropdown || box == &scaleDropdown) {
         midiGen::Scale newScale(keyDropdown.getText().toStdString(),
@@ -135,7 +135,7 @@ void MidiGenAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
     }
 }
 
-void MidiGenAudioProcessorEditor::setUpDropdown(juce::ComboBox &dropdown, std::vector<std::string> &options, int selectedOption, bool addListener) {
+void PlatooAudioProcessorEditor::setUpDropdown(juce::ComboBox &dropdown, std::vector<std::string> &options, int selectedOption, bool addListener) {
 
     for (int i = 0; i < options.size(); i++) {
         dropdown.addItem(options[i], i+1);
@@ -148,7 +148,7 @@ void MidiGenAudioProcessorEditor::setUpDropdown(juce::ComboBox &dropdown, std::v
         dropdown.addListener(this);
 }
 
-void MidiGenAudioProcessorEditor::timerCallback() {
+void PlatooAudioProcessorEditor::timerCallback() {
     currentNoteNumber = audioProcessor.getCurrentNoteNumber();
     if (currentNoteNumber > 0) {
         currentNoteNumber = currentNoteNumber % 12 + 1;

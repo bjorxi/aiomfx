@@ -16,12 +16,12 @@
 //==============================================================================
 /**
 */
-class MidiGenAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Timer,
+class PlatooAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Timer,
 private juce::ComboBox::Listener
 {
 public:
-    MidiGenAudioProcessorEditor (MidiGenAudioProcessor&);
-    ~MidiGenAudioProcessorEditor() override;
+    PlatooAudioProcessorEditor (PlatooAudioProcessor&);
+    ~PlatooAudioProcessorEditor() override;
 
     //==============================================================================
     void paint (juce::Graphics&) override;
@@ -32,7 +32,7 @@ public:
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    MidiGenAudioProcessor& audioProcessor;
+    PlatooAudioProcessor& audioProcessor;
     juce::ComboBox keyDropdown;
     juce::ComboBox scaleDropdown;
     juce::ToggleButton octDown;
@@ -69,5 +69,5 @@ private:
     
     int currentNoteNumber;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiGenAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlatooAudioProcessorEditor)
 };

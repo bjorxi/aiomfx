@@ -10,19 +10,18 @@
 
 #include <JuceHeader.h>
 
-#include "MidiProcessor.h"
 #include "Scale.h"
 
 //==============================================================================
 /**
 */
-class MidiGenAudioProcessor  : public juce::AudioProcessor
+class PlatooAudioProcessor  : public juce::AudioProcessor
 {
 public:
     
     //==============================================================================
-    MidiGenAudioProcessor();
-    ~MidiGenAudioProcessor() override;
+    PlatooAudioProcessor();
+    ~PlatooAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -63,8 +62,7 @@ public:
     
 private:
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiGenAudioProcessor);
-    MidiProcessor midiProcessor;
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlatooAudioProcessor);
     int currentNoteNumer = -1;
     midiGen::Scale scale;
 };

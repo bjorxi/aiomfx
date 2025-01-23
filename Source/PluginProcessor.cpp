@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-MidiGenAudioProcessor::MidiGenAudioProcessor()
+PlatooAudioProcessor::PlatooAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -24,17 +24,17 @@ MidiGenAudioProcessor::MidiGenAudioProcessor()
 {
 }
 
-MidiGenAudioProcessor::~MidiGenAudioProcessor()
+PlatooAudioProcessor::~PlatooAudioProcessor()
 {
 }
 
 //==============================================================================
-const juce::String MidiGenAudioProcessor::getName() const
+const juce::String PlatooAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool MidiGenAudioProcessor::acceptsMidi() const
+bool PlatooAudioProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput
     return true;
@@ -43,7 +43,7 @@ bool MidiGenAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool MidiGenAudioProcessor::producesMidi() const
+bool PlatooAudioProcessor::producesMidi() const
 {
    #if JucePlugin_ProducesMidiOutput
     return true;
@@ -52,7 +52,7 @@ bool MidiGenAudioProcessor::producesMidi() const
    #endif
 }
 
-bool MidiGenAudioProcessor::isMidiEffect() const
+bool PlatooAudioProcessor::isMidiEffect() const
 {
    #if JucePlugin_IsMidiEffect
     return true;
@@ -61,50 +61,50 @@ bool MidiGenAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double MidiGenAudioProcessor::getTailLengthSeconds() const
+double PlatooAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int MidiGenAudioProcessor::getNumPrograms()
+int PlatooAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int MidiGenAudioProcessor::getCurrentProgram()
+int PlatooAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void MidiGenAudioProcessor::setCurrentProgram (int index)
+void PlatooAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const juce::String MidiGenAudioProcessor::getProgramName (int index)
+const juce::String PlatooAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void MidiGenAudioProcessor::changeProgramName (int index, const juce::String& newName)
+void PlatooAudioProcessor::changeProgramName (int index, const juce::String& newName)
 {
 }
 
 //==============================================================================
-void MidiGenAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void PlatooAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 }
 
-void MidiGenAudioProcessor::releaseResources()
+void PlatooAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool MidiGenAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+bool PlatooAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
   #if JucePlugin_IsMidiEffect
     juce::ignoreUnused (layouts);
@@ -129,7 +129,7 @@ bool MidiGenAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) 
 }
 #endif
 
-void MidiGenAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+void PlatooAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     buffer.clear();
     
@@ -190,23 +190,23 @@ void MidiGenAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce
 }
 
 //==============================================================================
-bool MidiGenAudioProcessor::hasEditor() const
+bool PlatooAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-juce::AudioProcessorEditor* MidiGenAudioProcessor::createEditor() {
-    return new MidiGenAudioProcessorEditor (*this);
+juce::AudioProcessorEditor* PlatooAudioProcessor::createEditor() {
+    return new PlatooAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void MidiGenAudioProcessor::getStateInformation (juce::MemoryBlock& destData) {
+void PlatooAudioProcessor::getStateInformation (juce::MemoryBlock& destData) {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void MidiGenAudioProcessor::setStateInformation (const void* data, int sizeInBytes) {
+void PlatooAudioProcessor::setStateInformation (const void* data, int sizeInBytes) {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
@@ -214,18 +214,18 @@ void MidiGenAudioProcessor::setStateInformation (const void* data, int sizeInByt
 //==============================================================================
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-    return new MidiGenAudioProcessor();
+    return new PlatooAudioProcessor();
 }
 
 
-void MidiGenAudioProcessor::setCurrentNoteNumer(int val) {
+void PlatooAudioProcessor::setCurrentNoteNumer(int val) {
     currentNoteNumer = val;
 }
 
-int MidiGenAudioProcessor::getCurrentNoteNumber() {
+int PlatooAudioProcessor::getCurrentNoteNumber() {
     return currentNoteNumer;
 }
 
-void MidiGenAudioProcessor::setScale(midiGen::Scale &scale) {
+void PlatooAudioProcessor::setScale(midiGen::Scale &scale) {
     this->scale = scale;
 }
