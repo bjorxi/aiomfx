@@ -226,6 +226,6 @@ int PlatooAudioProcessor::getCurrentNoteNumber() {
     return currentNoteNumer;
 }
 
-void PlatooAudioProcessor::setScale(midiGen::Scale &scale) {
+void PlatooAudioProcessor::setScale(platoo::Scale &scale) {
     this->scale = scale;
 }

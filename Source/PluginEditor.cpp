@@ -127,7 +127,7 @@ void PlatooAudioProcessorEditor::resized()
 void PlatooAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
 //    std::cout << keyDropdown.getText() << " | " << scaleDropdown.getText() << std::endl;
     if (box == &keyDropdown || box == &scaleDropdown) {
-        midiGen::Scale newScale(keyDropdown.getText().toStdString(),
+        platoo::Scale newScale(keyDropdown.getText().toStdString(),
                        scaleDropdown.getText().toStdString());
         scale = newScale;
         audioProcessor.setScale(newScale);

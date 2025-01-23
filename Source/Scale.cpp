@@ -1,7 +1,7 @@
 #include "Scale.h"
 
 
-namespace midiGen {
+namespace platoo {
 
 const std::string Scale::scaleNameMajor = "Major";
 const std::string Scale::scaleNameMinor = "Minor";

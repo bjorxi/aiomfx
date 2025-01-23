@@ -2,7 +2,7 @@
 
 #include <JuceHeader.h>
 
-namespace midiGen {
+namespace platoo {
 
 class Note {
     int id;

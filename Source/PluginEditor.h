@@ -50,7 +50,7 @@ private:
     juce::Rectangle<int> keyBb;
     juce::Rectangle<int> keyB;
 
-    midiGen::Scale scale;
+    platoo::Scale scale;
     std::map<std::string, juce::Colour> notesColours{
         {"naturalNotActive", juce::Colour(23, 90, 105)},
         {"naturalActive", juce::Colour(59, 219, 255)},
