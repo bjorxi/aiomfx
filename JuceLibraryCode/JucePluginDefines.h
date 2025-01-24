@@ -92,7 +92,7 @@
  #define JucePlugin_VSTCategory            kPlugCategSynth
 #endif
 #ifndef  JucePlugin_Vst3Category
- #define JucePlugin_Vst3Category           "Instrument|Synth"
+ #define JucePlugin_Vst3Category           "Instrument"
 #endif
 #ifndef  JucePlugin_AUMainType
  #define JucePlugin_AUMainType             'aumu'
@@ -155,7 +155,7 @@
  #define JucePlugin_ARAFactoryID           "com.nodari_net.platoo.factory"
 #endif
 #ifndef  JucePlugin_ARADocumentArchiveID
- #define JucePlugin_ARADocumentArchiveID   "com.nodari_net.platoo.aradocumentarchive.1.0.0"
+ #define JucePlugin_ARADocumentArchiveID   "com.nodari_net.platoo.aradocumentarchive.0.0.1"
 #endif
 #ifndef  JucePlugin_ARACompatibleArchiveIDs
  #define JucePlugin_ARACompatibleArchiveIDs  ""

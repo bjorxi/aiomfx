@@ -3,9 +3,12 @@
 <JUCERPROJECT id="Hg676D" name="platoo" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginFormats="buildAU,buildStandalone,buildVST3"
               pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
-              companyWebsite="nodari.net" companyName="nodari.net" version="0.0.1">
+              companyWebsite="nodari.net" companyName="nodari.net" version="0.0.1"
+              pluginVST3Category="Instrument">
   <MAINGROUP id="eaAsyL" name="platoo">
     <GROUP id="{D9B33670-293C-EA97-2847-6BEF1027505B}" name="Source">
+      <FILE id="WHfsXF" name="Scale.cpp" compile="1" resource="0" file="Source/Scale.cpp"/>
+      <FILE id="ezf6Hx" name="Scale.h" compile="0" resource="0" file="Source/Scale.h"/>
       <FILE id="JdeEdq" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="u6RsLw" name="PluginProcessor.h" compile="0" resource="0"
