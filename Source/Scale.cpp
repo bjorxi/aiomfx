@@ -100,11 +100,20 @@ void Scale::buildSpanishScale() {
 }
 
 void Scale::buildDorianScale() {
-    
+    std::vector<int> intervals {2,1,2,2,2,1};
+    std::vector<int> chordTypes {
+        Note::chordTypeMinor, Note::chordTypeMinor, Note::chordTypeMajor,
+        Note::chordTypeMajor, Note::chordTypeMinor, Note::chordTypeMinor5,
+        Note::chordTypeMajor};
+    buildScale(intervals, chordTypes);
 }
 
 void Scale::buildPhrygianScale() {
-    
+    std::vector<int> intervals {1,2,2,2,1,2};
+    std::vector<int> chordTypes {
+        Note::chordTypeMinor, Note::chordTypeMajor, Note::chordTypeMajor,
+        Note::chordTypeMinor, Note::chordTypeMinor5, Note::chordTypeMajor, Note::chordTypeMinor};
+    buildScale(intervals, chordTypes);
 }
 
 void Scale::buildHarmonicMinorScale() {
