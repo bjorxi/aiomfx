@@ -16,8 +16,9 @@ public:
     static const int chordTypeMajor = 1;
     static const int chordTypeMajor5 = 2;
     static const int chordTypeMajorDim = 3;
-    static const int chordTypeMinor = 4;
-    static const int chordTypeMinor5 = 5;
+    static const int chordTypeMajorNo3 = 4;
+    static const int chordTypeMinor = 6;
+    static const int chordTypeMinor5 = 7;
     
     bool operator <(const Note& b) const
     {
@@ -60,6 +61,8 @@ public:
             return std::vector<int> {4,8};
         } else if (chordType == Note::chordTypeMajorDim) {
             return std::vector<int> {3, 6};
+        } else if (chordType == Note::chordTypeMajorNo3) {
+            return std::vector<int> {7};
         } else if (chordType == Note::chordTypeMinor) {
             return std::vector<int> {3,7};
         } else if (chordType == Note::chordTypeMinor5) {

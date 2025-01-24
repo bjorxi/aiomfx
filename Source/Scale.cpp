@@ -117,19 +117,35 @@ void Scale::buildPhrygianScale() {
 }
 
 void Scale::buildHarmonicMinorScale() {
-    
+    std::vector<int> intervals {2,1,2,2,1,3};
+    std::vector<int> chordTypes {
+        Note::chordTypeMinor, Note::chordTypeMajorDim, Note::chordTypeMajor5,
+        Note::chordTypeMinor, Note::chordTypeMajor, Note::chordTypeMajor, Note::chordTypeMajor5};
+    buildScale(intervals, chordTypes);
 }
 
 void Scale::buildMelodicMinorScale() {
-    
+    std::vector<int> intervals {2,1,2,2,2,2};
+    std::vector<int> chordTypes {
+        Note::chordTypeMinor, Note::chordTypeMinor, Note::chordTypeMajor5,
+        Note::chordTypeMajor, Note::chordTypeMajor, Note::chordTypeMinor5, Note::chordTypeMajor5};
+    buildScale(intervals, chordTypes);
 }
 
 void Scale::buildMajorPentatonicScale() {
-    
+    std::vector<int> intervals {2,2,3,2};
+    std::vector<int> chordTypes {
+        Note::chordTypeMinor, Note::chordTypeMajorNo3, Note::chordTypeMinor5,
+        Note::chordTypeMajorNo3, Note::chordTypeMinor};
+    buildScale(intervals, chordTypes);
 }
 
 void Scale::buildMinorPentatonicScale() {
-    
+    std::vector<int> intervals {3,2,2,3};
+    std::vector<int> chordTypes {
+        Note::chordTypeMinor, Note::chordTypeMajor, Note::chordTypeMajorNo3,
+        Note::chordTypeMinor5, Note::chordTypeMajorNo3};
+    buildScale(intervals, chordTypes);
 }
 
 std::string Scale::toStr() {
