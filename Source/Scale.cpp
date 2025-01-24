@@ -3,10 +3,6 @@
 
 namespace platoo {
 
-const std::string Scale::scaleNameMajor = "Major";
-const std::string Scale::scaleNameMinor = "Minor";
-
-
 Scale::Scale(std::string key, std::string name) : key(key), name(name) {
     if (name == "Major")
         buildMajorScale();
@@ -16,6 +12,20 @@ Scale::Scale(std::string key, std::string name) : key(key), name(name) {
         buildLydianScale();
     else if (name == "Mixolydian")
         buildMyxolydianScale();
+    else if (name == "Spanish")
+        buildSpanishScale();
+    else if (name == "Dorian")
+        buildDorianScale();
+    else if (name == "Phrygian")
+        buildPhrygianScale();
+    else if (name == "Harmonic Minor")
+        buildHarmonicMinorScale();
+    else if (name == "Melodic Minor")
+        buildMelodicMinorScale();
+    else if (name == "Major Pentatonic")
+        buildMajorPentatonicScale();
+    else if (name == "Minor Pentatonic")
+        buildMinorPentatonicScale();
 }
 
 
@@ -28,18 +38,18 @@ void Scale::buildScale(std::vector<int> &intervals, std::vector<int> &chordTypes
     int noteId = keyToNoteNum[key];
     notes[noteId].setInScale(true);
     notes[noteId].setChordType(chordTypes[0]);
-//    std::cout << "\n==Scale root: " << notes[noteId].getName() << std::endl;
+    std::cout << "\n==Scale root: " << notes[noteId].getName() << std::endl;
     for (int i = 0; i < intervals.size(); i++) {
         noteId += intervals[i];
-//        std::cout << "\nInterval intervals[i] " << intervals[i] << std::endl;
-//        std::cout << "- Key: " << noteId << "; ChordType: " << chordTypes[i] << std::endl;
+        std::cout << "\nInterval intervals[i] " << intervals[i] << std::endl;
+        std::cout << "- Key: " << noteId << "; ChordType: " << chordTypes[i] << std::endl;
         if (noteId > 11) {
             noteId = noteId - 12;
         }
         
         notes[noteId].setInScale(true);
         notes[noteId].setChordType(chordTypes[i+1]);
-//        std::cout << "+Key: " << notes[noteId].getName() << "; ChordType: " << chordTypes[i+1] << std::endl;
+        std::cout << "+Key: " << notes[noteId].getName() << "; ChordType: " << chordTypes[i+1] << std::endl;
     }
     
     buildScaleMap();
@@ -79,6 +89,38 @@ void Scale::buildMyxolydianScale() {
         Note::chordTypeMajor
     };
     buildScale(intervals, chordTypes);
+}
+
+void Scale::buildSpanishScale() {
+    std::vector<int> intervals {1,3,1,2,1,2};
+    std::vector<int> chordTypes {
+        Note::chordTypeMajor, Note::chordTypeMajor, Note::chordTypeMajor5,
+        Note::chordTypeMinor, Note::chordTypeMajorDim, Note::chordTypeMajor5, Note::chordTypeMinor};
+    buildScale(intervals, chordTypes);
+}
+
+void Scale::buildDorianScale() {
+    
+}
+
+void Scale::buildPhrygianScale() {
+    
+}
+
+void Scale::buildHarmonicMinorScale() {
+    
+}
+
+void Scale::buildMelodicMinorScale() {
+    
+}
+
+void Scale::buildMajorPentatonicScale() {
+    
+}
+
+void Scale::buildMinorPentatonicScale() {
+    
 }
 
 std::string Scale::toStr() {
