@@ -24,8 +24,6 @@ PlatooAudioProcessorEditor::PlatooAudioProcessorEditor (PlatooAudioProcessor& p)
     std::vector<std::string> notes = {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"};
     setUpDropdown(keyDropdown, notes, 1, true);
 
-
-
     std::vector<std::string> scalesNames = {"Major", "Minor",
         "Lydian", "Mixolydian", "Spanish", "Dorian", "Phrygian",
         "Harmonic Minor", "Melodic Minor", "Major Pentatonic", "Minor Pentatonic"};
@@ -91,8 +89,6 @@ void PlatooAudioProcessorEditor::paint (juce::Graphics& g)
                 g.fillRect(itor[note.getId()]);
             }
         }
-        
-        
     }
     
     // sharps and flats have to be painted after the naturals because order of painting

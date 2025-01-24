@@ -85,6 +85,7 @@ class Scale {
     
     void buildMajorScale();
     void buildMinorScale();
+    void buildLydianScale();
     void buildScale(std::vector<int> &intervals, std::vector<int> &chordTypes);
     void buildScaleMap();
     

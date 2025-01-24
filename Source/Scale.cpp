@@ -12,6 +12,8 @@ Scale::Scale(std::string key, std::string name) : key(key), name(name) {
         buildMajorScale();
     else if (name == "Minor")
         buildMinorScale();
+    else if (name == "Lydian")
+        buildLydianScale();
 }
 
 
@@ -56,6 +58,14 @@ void Scale::buildMinorScale() {
     std::vector<int> chordTypes {
         Note::chordTypeMinor, Note::chordTypeMinor5, Note::chordTypeMajor,
         Note::chordTypeMinor, Note::chordTypeMinor, Note::chordTypeMajor, Note::chordTypeMajor};
+    buildScale(intervals, chordTypes);
+}
+
+void Scale::buildLydianScale() {
+    std::vector<int> intervals {2,2,2,1,2,2};
+    std::vector<int> chordTypes {
+        Note::chordTypeMajor, Note::chordTypeMajor, Note::chordTypeMinor,
+        Note::chordTypeMinor5, Note::chordTypeMajor, Note::chordTypeMinor, Note::chordTypeMinor};
     buildScale(intervals, chordTypes);
 }
 
