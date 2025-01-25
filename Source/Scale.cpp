@@ -34,28 +34,22 @@ Scale::Scale(std::string key, std::string name) : key(key), name(name) {
         buildMinorPentatonicScale();
 }
 
-
-void Scale::paint(juce::Graphics &g) {
-    
-}
-
-
 void Scale::buildScale(std::vector<int> &intervals, std::vector<int> &chordTypes) {
     int noteId = keyToNoteNum[key];
     notes[noteId].setInScale(true);
     notes[noteId].setChordType(chordTypes[0]);
-    std::cout << "\n==Scale root: " << notes[noteId].getName() << std::endl;
+    //    std::cout << "\n==Scale root: " << notes[noteId].getName() << std::endl;
     for (int i = 0; i < intervals.size(); i++) {
         noteId += intervals[i];
-        std::cout << "\nInterval intervals[i] " << intervals[i] << std::endl;
-        std::cout << "- Key: " << noteId << "; ChordType: " << chordTypes[i] << std::endl;
+        //        std::cout << "\nInterval intervals[i] " << intervals[i] << std::endl;
+        //        std::cout << "- Key: " << noteId << "; ChordType: " << chordTypes[i] << std::endl;
         if (noteId > 11) {
             noteId = noteId - 12;
         }
         
         notes[noteId].setInScale(true);
         notes[noteId].setChordType(chordTypes[i+1]);
-        std::cout << "+Key: " << notes[noteId].getName() << "; ChordType: " << chordTypes[i+1] << std::endl;
+        //        std::cout << "+Key: " << notes[noteId].getName() << "; ChordType: " << chordTypes[i+1] << std::endl;
     }
     
     buildScaleMap();
@@ -203,23 +197,70 @@ void Scale::buildScaleMap() {
     for (auto note : getNotesInScale()) {
         // note ids start with 1
         notesNumsInScale.insert(note.getId()-1);
-//        std::cout << "ScaleMapping::__noteNum is in scale " << note.getId() << std::endl;
+        //        std::cout << "ScaleMapping::__noteNum is in scale " << note.getId() << std::endl;
     }
-
-        
+    
+    
     for (int noteNum = minNoteNumber; noteNum <= maxNoteNumber; noteNum++) {
         
         if (notesNumsInScale.count(noteNum % 12) == 0) {
             scaleMapping[noteNum] = noteNum - 1;
-//                std::cout << "ScaleMapping:: noteNum is not in scale " << noteNum << std::endl;
+            //                std::cout << "ScaleMapping:: noteNum is not in scale " << noteNum << std::endl;
         }
-//            std::cout << "ScaleMapping:: noteNum is in scale " << noteNum << std::endl;
+        //            std::cout << "ScaleMapping:: noteNum is in scale " << noteNum << std::endl;
     }
-
     
-//    for (auto elem : scaleMapping) {
-//        std::cout << "ScaleMapping::Map " << elem.first << " => " << elem.second << std::endl;
-//    }
+    
+    //    for (auto elem : scaleMapping) {
+    //        std::cout << "ScaleMapping::Map " << elem.first << " => " << elem.second << std::endl;
+    //    }
 }
 
-}; // namespace midiGen
+void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer& buffer) {
+    auto msg = metadata.getMessage();
+    int sampleNumber = msg.getTimeStamp();
+    int adjustedNoteNumber = adjustToScale(msg.getNoteNumber());
+    
+    if (octDown and adjustedNoteNumber-12 >= 26) {
+        buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedNoteNumber-12, msg.getVelocity()), sampleNumber);
+    }
+    
+    std::vector<int> chordIntervals = getChordIntervals(adjustedNoteNumber, 3);
+    if (msg.isNoteOn()) {
+        buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedNoteNumber, msg.getVelocity()), sampleNumber);
+        for (auto interval : chordIntervals)
+            buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedNoteNumber+interval, msg.getVelocity()), sampleNumber);
+    } else if (msg.isNoteOff()) {
+        buffer.addEvent(msg, sampleNumber);
+        buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedNoteNumber, msg.getVelocity()), sampleNumber);
+        // turn off oct down if it was on
+        buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedNoteNumber-12, msg.getVelocity()), sampleNumber);
+        for (auto interval : chordIntervals)
+            buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedNoteNumber+interval, msg.getVelocity()), sampleNumber);
+    } else {
+        buffer.addEvent(msg, sampleNumber);
+    }
+}
+
+bool Scale::getIsActive() {
+    return isActvie;
+}
+
+void Scale::setIsActive(bool val) {
+    isActvie = val;
+}
+
+std::vector<Note> Scale::getNotes() {
+    return notes;
+}
+
+
+void Scale::setOctDown(bool val) {
+    octDown = val;
+}
+
+bool Scale::getOctDown() {
+    return octDown;
+}
+
+}; // namespace aiomfx

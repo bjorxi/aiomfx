@@ -25,10 +25,11 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     addAndMakeVisible(scaleSectionLabel);
     addAndMakeVisible(scaleSectionKeyLabel);
     addAndMakeVisible(scaleSectionScaleLabel);
-//    addAndMakeVisible(octDown);
+    addAndMakeVisible(scaleSectionBypassBtn);
+    addAndMakeVisible(scaleSectionOctDownBtn);
     
-    scaleSectionLabel.setFont (juce::Font (16.0f, juce::Font::bold));
-    scaleSectionLabel.setText("Scales", juce::dontSendNotification);
+    scaleSectionLabel.setFont (juce::Font (18.0f, juce::Font::bold));
+    scaleSectionLabel.setText("Scales & Chords", juce::dontSendNotification);
     scaleSectionLabel.setColour(juce::Label::textColourId, juce::Colours::black);
     
     scaleSectionKeyLabel.setText("Key", juce::dontSendNotification);
@@ -39,9 +40,23 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     
     setUpDropdown(keyDropdown, aiomfx::Note::notes, 1, true);
     setUpDropdown(scaleDropdown, aiomfx::Scale::scalesNames, 1, true);
-
-    octDown.setTitle("Oct Down");
-    octDown.setButtonText("Oct Down");
+    
+    scaleSectionBypassBtn.setTitle("Bypass");
+    scaleSectionBypassBtn.setButtonText("Bypass");
+    scaleSectionBypassBtn.setColour(juce::ToggleButton::textColourId, juce::Colours::black);
+    scaleSectionBypassBtn.addListener(this);
+    scaleSectionBypassBtn.setToggleable(true);
+    
+    if (scale.getIsActive()) {
+        scaleSectionBypassBtn.setState(juce::Button::ButtonState::buttonDown);
+    }
+    
+    scaleSectionOctDownBtn.setTitle("Oct Down");
+    scaleSectionOctDownBtn.setButtonText("Oct Down");
+    scaleSectionOctDownBtn.setColour(juce::ToggleButton::textColourId, juce::Colours::black);
+    scaleSectionOctDownBtn.addListener(this);
+    scaleSectionOctDownBtn.setToggleable(true);
+    
     drawScaleSectionPiano(10, 90);
     
     itor[1] = keyC;
@@ -115,10 +130,10 @@ void AiomFXAudioProcessorEditor::paint (juce::Graphics& g)
     }
 }
 
-void AiomFXAudioProcessorEditor::resized()
-{
-
-    scaleSectionLabel.setBounds(10, 10, 50, 15);
+void AiomFXAudioProcessorEditor::resized() {
+    scaleSectionLabel.setBounds(10, 10, 200, 15);
+    scaleSectionBypassBtn.setBounds(10, 200, 50, 15);
+    scaleSectionOctDownBtn.setBounds(80, 200, 50, 15);
     scaleSectionKeyLabel.setBounds(10, 30, 40, 15);
     keyDropdown.setBounds(10, 50, 60, 30);
     scaleSectionScaleLabel.setBounds(90, 30, 100, 15);
@@ -133,6 +148,29 @@ void AiomFXAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
         scale = newScale;
         audioProcessor.setScale(newScale);
         repaint();
+    }
+}
+
+void AiomFXAudioProcessorEditor::buttonClicked(juce::Button *btn) {
+    std::cout << "Button clicked" << std::endl;
+    bool isToggled = btn->getToggleState();
+    if (btn == &scaleSectionOctDownBtn) {
+        if (isToggled) {
+            std::cout << "octDown" << std::endl;
+            audioProcessor.scale.setOctDown(true);
+        } else {
+            std::cout << "No octDown" << std::endl;
+            audioProcessor.scale.setOctDown(false);
+        }
+    } else if (btn == &scaleSectionBypassBtn) {
+        if (isToggled) {
+            std::cout << "Bypassed" << std::endl;
+            audioProcessor.scale.setIsActive(false);
+            
+        } else {
+            std::cout << "Not Bypassed" << std::endl;
+            audioProcessor.scale.setIsActive(true);
+        } 
     }
 }
 
