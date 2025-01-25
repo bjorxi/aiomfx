@@ -19,6 +19,7 @@ public:
     static const int chordTypeMajorNo3 = 4;
     static const int chordTypeMinor = 6;
     static const int chordTypeMinor5 = 7;
+    static std::vector<std::string> notes;
     
     bool operator <(const Note& b) const
     {
@@ -108,8 +109,10 @@ class Scale {
     void buildScaleMap();
     
 public:
-    static const std::string scaleNameMajor;
-    static const std::string scaleNameMinor;
+//    static const std::string scaleNameMajor;
+//    static const std::string scaleNameMinor;
+    
+    static const std::vector<std::string> scalesNames;
     
     Scale() {};
     Scale(std::string key, std::string name);

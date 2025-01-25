@@ -41,13 +41,13 @@
  #define JucePlugin_Enable_ARA             0
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "platoo"
+ #define JucePlugin_Name                   "aiomfx"
 #endif
 #ifndef  JucePlugin_Desc
- #define JucePlugin_Desc                   "platoo"
+ #define JucePlugin_Desc                   "aiomfx"
 #endif
 #ifndef  JucePlugin_Manufacturer
- #define JucePlugin_Manufacturer           "nodari.net"
+ #define JucePlugin_Manufacturer           "aiomfx"
 #endif
 #ifndef  JucePlugin_ManufacturerWebsite
  #define JucePlugin_ManufacturerWebsite    "nodari.net"
@@ -101,19 +101,19 @@
  #define JucePlugin_AUSubType              JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_AUExportPrefix
- #define JucePlugin_AUExportPrefix         platooAU
+ #define JucePlugin_AUExportPrefix         aiomfxAU
 #endif
 #ifndef  JucePlugin_AUExportPrefixQuoted
- #define JucePlugin_AUExportPrefixQuoted   "platooAU"
+ #define JucePlugin_AUExportPrefixQuoted   "aiomfxAU"
 #endif
 #ifndef  JucePlugin_AUManufacturerCode
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     com.nodari_net.platoo
+ #define JucePlugin_CFBundleIdentifier     com.null.aiomfx
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.nodari_net.platoo
+ #define JucePlugin_AAXIdentifier          net.nodari.aiomfx
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
@@ -137,7 +137,7 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "nodari.net: platoo"
+ #define JucePlugin_IAAName                "aiomfx: aiomfx"
 #endif
 #ifndef  JucePlugin_VSTNumMidiInputs
  #define JucePlugin_VSTNumMidiInputs       16
@@ -152,10 +152,10 @@
  #define JucePlugin_ARATransformationFlags  0
 #endif
 #ifndef  JucePlugin_ARAFactoryID
- #define JucePlugin_ARAFactoryID           "com.nodari_net.platoo.factory"
+ #define JucePlugin_ARAFactoryID           "com.null.aiomfx.factory"
 #endif
 #ifndef  JucePlugin_ARADocumentArchiveID
- #define JucePlugin_ARADocumentArchiveID   "com.nodari_net.platoo.aradocumentarchive.0.0.1"
+ #define JucePlugin_ARADocumentArchiveID   "com.null.aiomfx.aradocumentarchive.0.0.1"
 #endif
 #ifndef  JucePlugin_ARACompatibleArchiveIDs
  #define JucePlugin_ARACompatibleArchiveIDs  ""

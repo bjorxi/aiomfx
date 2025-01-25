@@ -28,15 +28,33 @@ public:
     void resized() override;
     void comboBoxChanged(juce::ComboBox *box) override;
     void timerCallback() override;
+    
+    /**
+     * @param x starting offset by X for drawing piano
+     * @param y starting offset by Y for drawing piano
+     */
+    void drawScaleSectionPiano(int x, int y);
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
     PlatooAudioProcessor& audioProcessor;
+    
+    // Min width and heigt of the plugin
+    int minWidth = 600;
+    int minHeight = 350;
+    int maxWidth = 800;
+    int maxHeight = 700;
+    
     juce::ComboBox keyDropdown;
     juce::ComboBox scaleDropdown;
     juce::ToggleButton octDown;
-
+    juce::Label scaleSectionLabel;
+    juce::Label scaleSectionKeyLabel;
+    juce::Label scaleSectionScaleLabel;
+    
+    juce::Rectangle<int> scaleSectionPianoTopBorder;
+    juce::Rectangle<int> scaleSectionPianoLeftBorder;
+    juce::Rectangle<int> scaleSectionPianoRightBorder;
+    juce::Rectangle<int> scaleSectionPianoBottomBorder;
     juce::Rectangle<int> keyC;
     juce::Rectangle<int> keyDb;
     juce::Rectangle<int> keyD;
@@ -51,23 +69,20 @@ private:
     juce::Rectangle<int> keyB;
 
     platoo::Scale scale;
-    std::map<std::string, juce::Colour> notesColours{
-        {"naturalNotActive", juce::Colour(23, 90, 105)},
-        {"naturalActive", juce::Colour(59, 219, 255)},
-        {"sharpNotActive", juce::Colour (12, 21, 25)},
-        {"sharpActive", juce::Colour(22, 173, 209)},
-    };
-    
-//    std::map<std::string, juce::Colour> colours{
-//        {"background": }
-//    };
-    
-    juce::Colour backgroundColour = juce::Colour(234, 229, 219);
-
     std::map<int, juce::Rectangle<int>> itor;
-    void setUpDropdown(juce::ComboBox &dropdown, std::vector<std::string> &options, int selectedOption, bool addListener);
+    void setUpDropdown(juce::ComboBox &dropdown, const std::vector<std::string> &options, int selectedOption, bool addListener);
     
     int currentNoteNumber;
+    
+    // Colors
+    std::map<std::string, juce::Colour> notesColours{
+        {"naturalNotActive", juce::Colour(199, 214, 201)},
+        {"naturalActive", juce::Colour(146, 176, 149)},
+        {"sharpNotActive", juce::Colour (134, 146, 136)},
+        {"sharpActive", juce::Colour(88, 141, 97)},
+    };
+    
+    juce::Colour backgroundColour = juce::Colour(255, 249, 245);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlatooAudioProcessorEditor)
 };

@@ -3,6 +3,12 @@
 
 namespace platoo {
 
+std::vector<std::string> Note::notes = {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"};
+
+const std::vector<std::string> Scale::scalesNames = {"Major", "Minor",
+    "Lydian", "Mixolydian", "Spanish", "Dorian", "Phrygian",
+    "Harmonic Minor", "Melodic Minor", "Major Pentatonic", "Minor Pentatonic"};
+
 Scale::Scale(std::string key, std::string name) : key(key), name(name) {
     if (name == "Major")
         buildMajorScale();

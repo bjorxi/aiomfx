@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="Hg676D" name="platoo" projectType="audioplug" useAppConfig="0"
+<JUCERPROJECT id="Hg676D" name="aiomfx" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginFormats="buildAU,buildStandalone,buildVST3"
               pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
-              companyWebsite="nodari.net" companyName="nodari.net" version="0.0.1"
-              pluginVST3Category="Instrument">
-  <MAINGROUP id="eaAsyL" name="platoo">
+              companyWebsite="nodari.net" companyName="null" version="0.0.1"
+              pluginVST3Category="Instrument" pluginName="aiomfx" pluginManufacturer="aiomfx"
+              aaxIdentifier="net.nodari.aiomfx">
+  <MAINGROUP id="eaAsyL" name="aiomfx">
     <GROUP id="{D9B33670-293C-EA97-2847-6BEF1027505B}" name="Source">
       <FILE id="WHfsXF" name="Scale.cpp" compile="1" resource="0" file="Source/Scale.cpp"/>
       <FILE id="ezf6Hx" name="Scale.h" compile="0" resource="0" file="Source/Scale.h"/>

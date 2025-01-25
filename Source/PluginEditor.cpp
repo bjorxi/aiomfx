@@ -16,36 +16,34 @@ PlatooAudioProcessorEditor::PlatooAudioProcessorEditor (PlatooAudioProcessor& p)
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     audioProcessor.setScale(scale);
-    setSize (400, 300);
+    setSize (minWidth, minHeight);
+    setResizable(true, true);
+    setResizeLimits (minWidth, minHeight, maxWidth, maxHeight);
+    
     addAndMakeVisible(keyDropdown);
     addAndMakeVisible(scaleDropdown);
+    addAndMakeVisible(scaleSectionLabel);
+    addAndMakeVisible(scaleSectionKeyLabel);
+    addAndMakeVisible(scaleSectionScaleLabel);
 //    addAndMakeVisible(octDown);
-
-    std::vector<std::string> notes = {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"};
-    setUpDropdown(keyDropdown, notes, 1, true);
-
-    std::vector<std::string> scalesNames = {"Major", "Minor",
-        "Lydian", "Mixolydian", "Spanish", "Dorian", "Phrygian",
-        "Harmonic Minor", "Melodic Minor", "Major Pentatonic", "Minor Pentatonic"};
-
-    setUpDropdown(scaleDropdown, scalesNames, 1, true);
+    
+    scaleSectionLabel.setFont (juce::Font (16.0f, juce::Font::bold));
+    scaleSectionLabel.setText("Scales", juce::dontSendNotification);
+    scaleSectionLabel.setColour(juce::Label::textColourId, juce::Colours::black);
+    
+    scaleSectionKeyLabel.setText("Key", juce::dontSendNotification);
+    scaleSectionKeyLabel.setColour(juce::Label::textColourId, juce::Colours::black);
+    
+    scaleSectionScaleLabel.setText("Scale", juce::dontSendNotification);
+    scaleSectionScaleLabel.setColour(juce::Label::textColourId, juce::Colours::black);
+    
+    setUpDropdown(keyDropdown, platoo::Note::notes, 1, true);
+    setUpDropdown(scaleDropdown, platoo::Scale::scalesNames, 1, true);
 
     octDown.setTitle("Oct Down");
     octDown.setButtonText("Oct Down");
-
-    keyC = juce::Rectangle<int>(10, 90, 20, 50);
-    keyDb = juce::Rectangle<int>(22, 90, 15, 25);
-    keyD = juce::Rectangle<int>(31, 90, 20, 50);
-    keyEb = juce::Rectangle<int>(43, 90, 15, 25);
-    keyE = juce::Rectangle<int>(52, 90, 20, 50);
-    keyF = juce::Rectangle<int>(73, 90, 20, 50);
-    keyGb = juce::Rectangle<int>(85, 90, 15, 25);
-    keyG = juce::Rectangle<int>(94, 90, 20, 50);
-    keyAb = juce::Rectangle<int>(106, 90, 15, 25);
-    keyA = juce::Rectangle<int>(115, 90, 20, 50);
-    keyBb = juce::Rectangle<int>(127, 90, 15, 25);
-    keyB = juce::Rectangle<int>(136, 90, 20, 50);
-
+    drawScaleSectionPiano(10, 90);
+    
     itor[1] = keyC;
     itor[2] = keyDb;
     itor[3] = keyD;
@@ -59,7 +57,7 @@ PlatooAudioProcessorEditor::PlatooAudioProcessorEditor (PlatooAudioProcessor& p)
     itor[11] = keyBb;
     itor[12] = keyB;
     
-    juce::Timer::startTimer(2);
+    juce::Timer::startTimer(1);
 }
 
 PlatooAudioProcessorEditor::~PlatooAudioProcessorEditor()
@@ -71,9 +69,14 @@ PlatooAudioProcessorEditor::~PlatooAudioProcessorEditor()
 void PlatooAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-//    g.fillAll(backgroundColour);
-
+//    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    g.fillAll(backgroundColour);
+    
+    g.setColour(juce::Colour(100, 90, 85));
+    g.fillRect(scaleSectionPianoTopBorder);
+    g.fillRect(scaleSectionPianoBottomBorder);
+    g.fillRect(scaleSectionPianoLeftBorder);
+    g.fillRect(scaleSectionPianoRightBorder);
     for (auto note : scale.getNotes()) {
         if (note.getIsNatural()) {
             if (note.getInScale()) {
@@ -108,16 +111,17 @@ void PlatooAudioProcessorEditor::paint (juce::Graphics& g)
                 g.fillRect(itor[note.getId()]);
             }
         }
-        
-        
     }
 }
 
 void PlatooAudioProcessorEditor::resized()
 {
-    keyDropdown.setBounds(10, 10, 60, 30);
-    scaleDropdown.setBounds(90, 10, 100, 30);
-    octDown.setBounds(10, 50, 50, 30);
+
+    scaleSectionLabel.setBounds(10, 10, 50, 15);
+    scaleSectionKeyLabel.setBounds(10, 30, 40, 15);
+    keyDropdown.setBounds(10, 50, 60, 30);
+    scaleSectionScaleLabel.setBounds(90, 30, 100, 15);
+    scaleDropdown.setBounds(90, 50, 100, 30);
 }
 
 void PlatooAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
@@ -131,7 +135,7 @@ void PlatooAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
     }
 }
 
-void PlatooAudioProcessorEditor::setUpDropdown(juce::ComboBox &dropdown, std::vector<std::string> &options, int selectedOption, bool addListener) {
+void PlatooAudioProcessorEditor::setUpDropdown(juce::ComboBox &dropdown, const std::vector<std::string> &options, int selectedOption, bool addListener) {
 
     for (int i = 0; i < options.size(); i++) {
         dropdown.addItem(options[i], i+1);
@@ -150,4 +154,41 @@ void PlatooAudioProcessorEditor::timerCallback() {
         currentNoteNumber = currentNoteNumber % 12 + 1;
         repaint();
     }
+}
+
+void PlatooAudioProcessorEditor::drawScaleSectionPiano(int x, int y) {
+    int numOfNaturalNotes = 7;
+    int naturalNotePadding = 1; // space between natural notes
+    int allNaturalNotesPadding = (numOfNaturalNotes-1) * naturalNotePadding;
+    int borderSize = 3;
+    int scalePianoY = y+borderSize;
+    int scalePianoX = x+borderSize;
+    int scalePianoNaturalsHeight = 55;
+    int scalePianoFlatsHeight = 25;
+    int scalePianoNaturalsWidth = 25;
+    int scalePianoFlatsWidth = 18;
+    
+    int bottomBorderY = scalePianoY + scalePianoNaturalsHeight;
+    int leftRightBorderHeight = scalePianoNaturalsHeight + 2 * borderSize;
+    int rightBorderX = x + borderSize + numOfNaturalNotes * scalePianoNaturalsWidth + allNaturalNotesPadding;
+    int topBottomBorderWidth = 2 * borderSize + numOfNaturalNotes * scalePianoNaturalsWidth + allNaturalNotesPadding;
+    
+    scaleSectionPianoTopBorder = juce::Rectangle<int>(x, y, topBottomBorderWidth, borderSize);
+    scaleSectionPianoBottomBorder = juce::Rectangle<int>(x, bottomBorderY, topBottomBorderWidth, borderSize);
+    scaleSectionPianoLeftBorder = juce::Rectangle<int>(x, y, borderSize, leftRightBorderHeight);
+    scaleSectionPianoRightBorder = juce::Rectangle<int>(rightBorderX, y, borderSize, leftRightBorderHeight);
+    // Scale piano roll
+    
+    keyC = juce::Rectangle<int>(scalePianoX, scalePianoY, scalePianoNaturalsWidth, scalePianoNaturalsHeight);
+    keyDb = juce::Rectangle<int>(keyC.getX()+keyC.getWidth() - scalePianoFlatsWidth / 2, scalePianoY, scalePianoFlatsWidth, scalePianoFlatsHeight);
+    keyD = juce::Rectangle<int>(scalePianoX+keyC.getWidth()+naturalNotePadding, scalePianoY, scalePianoNaturalsWidth, scalePianoNaturalsHeight);
+    keyEb = juce::Rectangle<int>(keyD.getX()+keyD.getWidth() - scalePianoFlatsWidth / 2, scalePianoY, scalePianoFlatsWidth, scalePianoFlatsHeight);
+    keyE = juce::Rectangle<int>(keyD.getX()+keyD.getWidth()+naturalNotePadding, scalePianoY, scalePianoNaturalsWidth, scalePianoNaturalsHeight);
+    keyF = juce::Rectangle<int>(keyE.getX()+keyE.getWidth()+naturalNotePadding, scalePianoY, scalePianoNaturalsWidth, scalePianoNaturalsHeight);
+    keyGb = juce::Rectangle<int>(keyF.getX()+keyF.getWidth() - scalePianoFlatsWidth / 2, scalePianoY, scalePianoFlatsWidth, scalePianoFlatsHeight);
+    keyG = juce::Rectangle<int>(keyF.getX()+keyF.getWidth()+naturalNotePadding, scalePianoY, scalePianoNaturalsWidth, scalePianoNaturalsHeight);
+    keyAb = juce::Rectangle<int>(keyG.getX()+keyG.getWidth() - scalePianoFlatsWidth / 2, scalePianoY, scalePianoFlatsWidth, scalePianoFlatsHeight);
+    keyA = juce::Rectangle<int>(keyG.getX()+keyG.getWidth()+naturalNotePadding, scalePianoY, scalePianoNaturalsWidth, scalePianoNaturalsHeight);
+    keyBb = juce::Rectangle<int>(keyA.getX()+keyA.getWidth() - scalePianoFlatsWidth / 2, scalePianoY, scalePianoFlatsWidth, scalePianoFlatsHeight);
+    keyB = juce::Rectangle<int>(keyA.getX()+keyA.getWidth()+naturalNotePadding, scalePianoY, scalePianoNaturalsWidth, scalePianoNaturalsHeight);
 }
