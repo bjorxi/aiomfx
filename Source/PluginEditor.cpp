@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-PlatooAudioProcessorEditor::PlatooAudioProcessorEditor (PlatooAudioProcessor& p)
+AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p), scale("C", "Major")
 {
     // Make sure that before the constructor has finished, you've set the
@@ -37,8 +37,8 @@ PlatooAudioProcessorEditor::PlatooAudioProcessorEditor (PlatooAudioProcessor& p)
     scaleSectionScaleLabel.setText("Scale", juce::dontSendNotification);
     scaleSectionScaleLabel.setColour(juce::Label::textColourId, juce::Colours::black);
     
-    setUpDropdown(keyDropdown, platoo::Note::notes, 1, true);
-    setUpDropdown(scaleDropdown, platoo::Scale::scalesNames, 1, true);
+    setUpDropdown(keyDropdown, aiomfx::Note::notes, 1, true);
+    setUpDropdown(scaleDropdown, aiomfx::Scale::scalesNames, 1, true);
 
     octDown.setTitle("Oct Down");
     octDown.setButtonText("Oct Down");
@@ -60,13 +60,13 @@ PlatooAudioProcessorEditor::PlatooAudioProcessorEditor (PlatooAudioProcessor& p)
     juce::Timer::startTimer(1);
 }
 
-PlatooAudioProcessorEditor::~PlatooAudioProcessorEditor()
+AiomFXAudioProcessorEditor::~AiomFXAudioProcessorEditor()
 {
     juce::Timer::stopTimer();
 }
 
 //==============================================================================
-void PlatooAudioProcessorEditor::paint (juce::Graphics& g)
+void AiomFXAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
 //    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
@@ -114,7 +114,7 @@ void PlatooAudioProcessorEditor::paint (juce::Graphics& g)
     }
 }
 
-void PlatooAudioProcessorEditor::resized()
+void AiomFXAudioProcessorEditor::resized()
 {
 
     scaleSectionLabel.setBounds(10, 10, 50, 15);
@@ -124,10 +124,10 @@ void PlatooAudioProcessorEditor::resized()
     scaleDropdown.setBounds(90, 50, 100, 30);
 }
 
-void PlatooAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
+void AiomFXAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
 //    std::cout << keyDropdown.getText() << " | " << scaleDropdown.getText() << std::endl;
     if (box == &keyDropdown || box == &scaleDropdown) {
-        platoo::Scale newScale(keyDropdown.getText().toStdString(),
+        aiomfx::Scale newScale(keyDropdown.getText().toStdString(),
                        scaleDropdown.getText().toStdString());
         scale = newScale;
         audioProcessor.setScale(newScale);
@@ -135,7 +135,7 @@ void PlatooAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
     }
 }
 
-void PlatooAudioProcessorEditor::setUpDropdown(juce::ComboBox &dropdown, const std::vector<std::string> &options, int selectedOption, bool addListener) {
+void AiomFXAudioProcessorEditor::setUpDropdown(juce::ComboBox &dropdown, const std::vector<std::string> &options, int selectedOption, bool addListener) {
 
     for (int i = 0; i < options.size(); i++) {
         dropdown.addItem(options[i], i+1);
@@ -148,7 +148,7 @@ void PlatooAudioProcessorEditor::setUpDropdown(juce::ComboBox &dropdown, const s
         dropdown.addListener(this);
 }
 
-void PlatooAudioProcessorEditor::timerCallback() {
+void AiomFXAudioProcessorEditor::timerCallback() {
     currentNoteNumber = audioProcessor.getCurrentNoteNumber();
     if (currentNoteNumber > 0) {
         currentNoteNumber = currentNoteNumber % 12 + 1;
@@ -156,7 +156,7 @@ void PlatooAudioProcessorEditor::timerCallback() {
     }
 }
 
-void PlatooAudioProcessorEditor::drawScaleSectionPiano(int x, int y) {
+void AiomFXAudioProcessorEditor::drawScaleSectionPiano(int x, int y) {
     int numOfNaturalNotes = 7;
     int naturalNotePadding = 1; // space between natural notes
     int allNaturalNotesPadding = (numOfNaturalNotes-1) * naturalNotePadding;

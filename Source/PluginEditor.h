@@ -16,12 +16,12 @@
 //==============================================================================
 /**
 */
-class PlatooAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Timer,
+class AiomFXAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Timer,
 private juce::ComboBox::Listener
 {
 public:
-    PlatooAudioProcessorEditor (PlatooAudioProcessor&);
-    ~PlatooAudioProcessorEditor() override;
+    AiomFXAudioProcessorEditor (AiomFXAudioProcessor&);
+    ~AiomFXAudioProcessorEditor() override;
 
     //==============================================================================
     void paint (juce::Graphics&) override;
@@ -36,7 +36,7 @@ public:
     void drawScaleSectionPiano(int x, int y);
 
 private:
-    PlatooAudioProcessor& audioProcessor;
+    AiomFXAudioProcessor& audioProcessor;
     
     // Min width and heigt of the plugin
     int minWidth = 600;
@@ -68,7 +68,7 @@ private:
     juce::Rectangle<int> keyBb;
     juce::Rectangle<int> keyB;
 
-    platoo::Scale scale;
+    aiomfx::Scale scale;
     std::map<int, juce::Rectangle<int>> itor;
     void setUpDropdown(juce::ComboBox &dropdown, const std::vector<std::string> &options, int selectedOption, bool addListener);
     
@@ -84,5 +84,5 @@ private:
     
     juce::Colour backgroundColour = juce::Colour(255, 249, 245);
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlatooAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AiomFXAudioProcessorEditor)
 };

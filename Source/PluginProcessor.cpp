@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-PlatooAudioProcessor::PlatooAudioProcessor()
+AiomFXAudioProcessor::AiomFXAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -24,17 +24,17 @@ PlatooAudioProcessor::PlatooAudioProcessor()
 {
 }
 
-PlatooAudioProcessor::~PlatooAudioProcessor()
+AiomFXAudioProcessor::~AiomFXAudioProcessor()
 {
 }
 
 //==============================================================================
-const juce::String PlatooAudioProcessor::getName() const
+const juce::String AiomFXAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool PlatooAudioProcessor::acceptsMidi() const
+bool AiomFXAudioProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput
     return true;
@@ -43,7 +43,7 @@ bool PlatooAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool PlatooAudioProcessor::producesMidi() const
+bool AiomFXAudioProcessor::producesMidi() const
 {
    #if JucePlugin_ProducesMidiOutput
     return true;
@@ -52,7 +52,7 @@ bool PlatooAudioProcessor::producesMidi() const
    #endif
 }
 
-bool PlatooAudioProcessor::isMidiEffect() const
+bool AiomFXAudioProcessor::isMidiEffect() const
 {
    #if JucePlugin_IsMidiEffect
     return true;
@@ -61,50 +61,50 @@ bool PlatooAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double PlatooAudioProcessor::getTailLengthSeconds() const
+double AiomFXAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int PlatooAudioProcessor::getNumPrograms()
+int AiomFXAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int PlatooAudioProcessor::getCurrentProgram()
+int AiomFXAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void PlatooAudioProcessor::setCurrentProgram (int index)
+void AiomFXAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const juce::String PlatooAudioProcessor::getProgramName (int index)
+const juce::String AiomFXAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void PlatooAudioProcessor::changeProgramName (int index, const juce::String& newName)
+void AiomFXAudioProcessor::changeProgramName (int index, const juce::String& newName)
 {
 }
 
 //==============================================================================
-void PlatooAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void AiomFXAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 }
 
-void PlatooAudioProcessor::releaseResources()
+void AiomFXAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool PlatooAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+bool AiomFXAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
   #if JucePlugin_IsMidiEffect
     juce::ignoreUnused (layouts);
@@ -129,7 +129,7 @@ bool PlatooAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) c
 }
 #endif
 
-void PlatooAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+void AiomFXAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     buffer.clear();
     
@@ -190,23 +190,23 @@ void PlatooAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
 }
 
 //==============================================================================
-bool PlatooAudioProcessor::hasEditor() const
+bool AiomFXAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-juce::AudioProcessorEditor* PlatooAudioProcessor::createEditor() {
-    return new PlatooAudioProcessorEditor (*this);
+juce::AudioProcessorEditor* AiomFXAudioProcessor::createEditor() {
+    return new AiomFXAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void PlatooAudioProcessor::getStateInformation (juce::MemoryBlock& destData) {
+void AiomFXAudioProcessor::getStateInformation (juce::MemoryBlock& destData) {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void PlatooAudioProcessor::setStateInformation (const void* data, int sizeInBytes) {
+void AiomFXAudioProcessor::setStateInformation (const void* data, int sizeInBytes) {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
@@ -214,18 +214,18 @@ void PlatooAudioProcessor::setStateInformation (const void* data, int sizeInByte
 //==============================================================================
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-    return new PlatooAudioProcessor();
+    return new AiomFXAudioProcessor();
 }
 
 
-void PlatooAudioProcessor::setCurrentNoteNumer(int val) {
+void AiomFXAudioProcessor::setCurrentNoteNumer(int val) {
     currentNoteNumer = val;
 }
 
-int PlatooAudioProcessor::getCurrentNoteNumber() {
+int AiomFXAudioProcessor::getCurrentNoteNumber() {
     return currentNoteNumer;
 }
 
-void PlatooAudioProcessor::setScale(platoo::Scale &scale) {
+void AiomFXAudioProcessor::setScale(aiomfx::Scale &scale) {
     this->scale = scale;
 }

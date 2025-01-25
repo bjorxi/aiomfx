@@ -2,7 +2,7 @@
 
 #include <JuceHeader.h>
 
-namespace platoo {
+namespace aiomfx {
 
 class Note {
     int id;

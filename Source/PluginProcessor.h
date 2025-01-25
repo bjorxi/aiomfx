@@ -15,13 +15,13 @@
 //==============================================================================
 /**
 */
-class PlatooAudioProcessor  : public juce::AudioProcessor
+class AiomFXAudioProcessor  : public juce::AudioProcessor
 {
 public:
     
     //==============================================================================
-    PlatooAudioProcessor();
-    ~PlatooAudioProcessor() override;
+    AiomFXAudioProcessor();
+    ~AiomFXAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -58,11 +58,11 @@ public:
     
     void setCurrentNoteNumer(int val);
     int getCurrentNoteNumber();
-    void setScale(platoo::Scale &scale);
+    void setScale(aiomfx::Scale &scale);
     
 private:
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlatooAudioProcessor);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AiomFXAudioProcessor);
     int currentNoteNumer = -1;
-    platoo::Scale scale;
+    aiomfx::Scale scale;
 };
