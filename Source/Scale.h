@@ -78,6 +78,10 @@ public:
 class Scale {
     std::string key;
     std::string name;
+    bool isActvie = true;
+    
+    bool octDown = false;
+    bool chordsAreOn = true;
     
     std::vector<Note> notes {
         Note(1, "C", true), Note(2, "Db", false), Note(3, "D", true),
@@ -108,24 +112,46 @@ class Scale {
     void buildScale(std::vector<int> &intervals, std::vector<int> &chordTypes);
     void buildScaleMap();
     
-public:
-//    static const std::string scaleNameMajor;
-//    static const std::string scaleNameMinor;
     
+    
+public:
     static const std::vector<std::string> scalesNames;
     
     Scale() {};
     Scale(std::string key, std::string name);
-
-    void paint(juce::Graphics& g);
+    
+    /**
+     * Returns a string representation of the scale. Used for debugging
+     */
     std::string toStr();
     
-    std::vector<Note> getNotes() {
-    return notes;
-    }
+    std::vector<Note> getNotes();
+    
+    /**
+     * Returns notes that belong to the scale
+     */
     std::set<Note> getNotesInScale();
+    
+    /**
+     * Return notes that don't belog to the scale
+     */
     std::set<Note> getNotesNotInScale();
+    
+    /**
+     * Adjust a note to the scale if it doesn't belong to the current scale
+     *
+     * @param noteNumber - MIDI note number
+     */
     int adjustToScale(int noteNumber);
     std::vector<int> getChordIntervals(int noteNumber, int numOfNotes);
+    bool getIsActive();
+    void setIsActive(bool val);
+    void process(const juce::MidiMessageMetadata & metadata, juce::MidiBuffer& buffer);
+    
+    void setOctDown(bool val);
+    bool getOctDown();
+    
+    void setChordsAreOn(bool val);
+    bool getChordsAreOn();
 };
 }

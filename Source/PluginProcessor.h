@@ -59,10 +59,10 @@ public:
     void setCurrentNoteNumer(int val);
     int getCurrentNoteNumber();
     void setScale(aiomfx::Scale &scale);
-    
+    aiomfx::Scale scale;
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AiomFXAudioProcessor);
     int currentNoteNumer = -1;
-    aiomfx::Scale scale;
+    
 };

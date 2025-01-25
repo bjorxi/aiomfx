@@ -17,7 +17,7 @@
 /**
 */
 class AiomFXAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Timer,
-private juce::ComboBox::Listener
+private juce::ComboBox::Listener, private juce::ToggleButton::Listener
 {
 public:
     AiomFXAudioProcessorEditor (AiomFXAudioProcessor&);
@@ -27,6 +27,7 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
     void comboBoxChanged(juce::ComboBox *box) override;
+    void buttonClicked(juce::Button *button) override;
     void timerCallback() override;
     
     /**
@@ -46,10 +47,12 @@ private:
     
     juce::ComboBox keyDropdown;
     juce::ComboBox scaleDropdown;
-    juce::ToggleButton octDown;
+    juce::ToggleButton scaleSectionOctDownBtn;
+    juce::ToggleButton scaleSectionBypassBtn;
     juce::Label scaleSectionLabel;
     juce::Label scaleSectionKeyLabel;
     juce::Label scaleSectionScaleLabel;
+    juce::ToggleButton scaleSectionChordsAreOnBtn;
     
     juce::Rectangle<int> scaleSectionPianoTopBorder;
     juce::Rectangle<int> scaleSectionPianoLeftBorder;
@@ -84,7 +87,8 @@ private:
     
     juce::Colour scaleSectionPianoBorderColour = juce::Colour(100, 90, 85);
     
-    juce::Colour backgroundColour = juce::Colour(255, 249, 245);
+//    juce::Colour backgroundColour = juce::Colour(255, 249, 245);
+    juce::Colour backgroundColour = juce::Colour(86, 100, 139);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AiomFXAudioProcessorEditor)
 };
