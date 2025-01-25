@@ -80,7 +80,7 @@ void AiomFXAudioProcessorEditor::paint (juce::Graphics& g)
     
     for (auto note : scale.getNotes()) {
         if (note.getIsNatural()) {
-            if (note.getInScale()) {
+            if (note.getIsInScale()) {
                 g.setColour(notesColours["naturalActive"]);
                 g.fillRect(itor[note.getId()]);
             } else {
@@ -99,7 +99,7 @@ void AiomFXAudioProcessorEditor::paint (juce::Graphics& g)
     // matters in juce. this way shaprs/flat are drawn correctly on top of naturals
     for (auto note : scale.getNotes()) {
         if (!note.getIsNatural()) {
-            if (note.getInScale()) {
+            if (note.getIsInScale()) {
                 g.setColour(notesColours["sharpActive"]);
                 g.fillRect(itor[note.getId()]);
             } else {

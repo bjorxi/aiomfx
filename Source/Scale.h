@@ -43,7 +43,7 @@ public:
         return isNatural;
     }
     
-    bool getInScale() {
+    bool getIsInScale() {
         return inScale;
     }
     

@@ -167,7 +167,7 @@ std::set<Note> Scale::getNotesInScale() {
     std::set<Note> out;
     
     for (auto note : notes) {
-        if (note.getInScale())
+        if (note.getIsInScale())
             out.insert(note);
     }
     return out;
@@ -177,7 +177,7 @@ std::set<Note> Scale::getNotesNotInScale() {
     std::set<Note> out;
     
     for (auto note : notes) {
-        if (!note.getInScale())
+        if (!note.getIsInScale())
             out.insert(note);
     }
     return out;
