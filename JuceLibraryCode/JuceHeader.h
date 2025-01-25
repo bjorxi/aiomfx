@@ -42,7 +42,7 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "aiomfx";
-    const char* const  companyName    = "null";
+    const char* const  companyName    = "";
     const char* const  versionString  = "0.0.1";
     const int          versionNumber  = 0x1;
 }
