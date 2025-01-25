@@ -72,11 +72,12 @@ void AiomFXAudioProcessorEditor::paint (juce::Graphics& g)
 //    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     g.fillAll(backgroundColour);
     
-    g.setColour(juce::Colour(100, 90, 85));
+    g.setColour(scaleSectionPianoBorderColour);
     g.fillRect(scaleSectionPianoTopBorder);
     g.fillRect(scaleSectionPianoBottomBorder);
     g.fillRect(scaleSectionPianoLeftBorder);
     g.fillRect(scaleSectionPianoRightBorder);
+    
     for (auto note : scale.getNotes()) {
         if (note.getIsNatural()) {
             if (note.getInScale()) {

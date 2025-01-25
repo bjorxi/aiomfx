@@ -82,6 +82,8 @@ private:
         {"sharpActive", juce::Colour(88, 141, 97)},
     };
     
+    juce::Colour scaleSectionPianoBorderColour = juce::Colour(100, 90, 85);
+    
     juce::Colour backgroundColour = juce::Colour(255, 249, 245);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AiomFXAudioProcessorEditor)

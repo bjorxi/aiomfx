@@ -6,8 +6,8 @@
               pluginManufacturer="aiomfx" aaxIdentifier="org.aiomfx.aiomfx">
   <MAINGROUP id="jmBNh1" name="aiomfx">
     <GROUP id="{4339D60C-DF74-C91A-68BD-1AE8B1EB7A23}" name="Source">
-      <FILE id="O1Uv71" name="Scale.cpp" compile="1" resource="0" file="Source/Scale.cpp"/>
-      <FILE id="m66Vy6" name="Scale.h" compile="0" resource="0" file="Source/Scale.h"/>
+      <FILE id="hAOyK6" name="Scale.cpp" compile="1" resource="0" file="Source/Scale.cpp"/>
+      <FILE id="FE6pv5" name="Scale.h" compile="0" resource="0" file="Source/Scale.h"/>
       <FILE id="txOu3a" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="Wb3Z6T" name="PluginProcessor.h" compile="0" resource="0"
