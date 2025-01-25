@@ -81,6 +81,7 @@ class Scale {
     bool isActvie = true;
     
     bool octDown = false;
+    bool chordsAreOn = true;
     
     std::vector<Note> notes {
         Note(1, "C", true), Note(2, "Db", false), Note(3, "D", true),
@@ -149,5 +150,8 @@ public:
     
     void setOctDown(bool val);
     bool getOctDown();
+    
+    void setChordsAreOn(bool val);
+    bool getChordsAreOn();
 };
 }

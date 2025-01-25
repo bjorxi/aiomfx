@@ -27,6 +27,7 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     addAndMakeVisible(scaleSectionScaleLabel);
     addAndMakeVisible(scaleSectionBypassBtn);
     addAndMakeVisible(scaleSectionOctDownBtn);
+    addAndMakeVisible(scaleSectionChordsAreOnBtn);
     
     scaleSectionLabel.setFont (juce::Font (18.0f, juce::Font::bold));
     scaleSectionLabel.setText("Scales & Chords", juce::dontSendNotification);
@@ -56,6 +57,13 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     scaleSectionOctDownBtn.setColour(juce::ToggleButton::textColourId, juce::Colours::black);
     scaleSectionOctDownBtn.addListener(this);
     scaleSectionOctDownBtn.setToggleable(true);
+    
+    scaleSectionChordsAreOnBtn.setTitle("Chords");
+    scaleSectionChordsAreOnBtn.setButtonText("Chords");
+    scaleSectionChordsAreOnBtn.setColour(juce::ToggleButton::textColourId, juce::Colours::black);
+    scaleSectionChordsAreOnBtn.addListener(this);
+    scaleSectionChordsAreOnBtn.setToggleable(true);
+    scaleSectionChordsAreOnBtn.setToggleState(true, juce::dontSendNotification);
     
     drawScaleSectionPiano(10, 90);
     
@@ -132,8 +140,9 @@ void AiomFXAudioProcessorEditor::paint (juce::Graphics& g)
 
 void AiomFXAudioProcessorEditor::resized() {
     scaleSectionLabel.setBounds(10, 10, 200, 15);
-    scaleSectionBypassBtn.setBounds(10, 200, 50, 15);
-    scaleSectionOctDownBtn.setBounds(80, 200, 50, 15);
+    scaleSectionBypassBtn.setBounds(10, 200, 100, 50);
+    scaleSectionOctDownBtn.setBounds(120, 200, 100, 50);
+    scaleSectionChordsAreOnBtn.setBounds(230, 200, 100, 50);
     scaleSectionKeyLabel.setBounds(10, 30, 40, 15);
     keyDropdown.setBounds(10, 50, 60, 30);
     scaleSectionScaleLabel.setBounds(90, 30, 100, 15);
@@ -152,25 +161,14 @@ void AiomFXAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
 }
 
 void AiomFXAudioProcessorEditor::buttonClicked(juce::Button *btn) {
-    std::cout << "Button clicked" << std::endl;
     bool isToggled = btn->getToggleState();
+    
     if (btn == &scaleSectionOctDownBtn) {
-        if (isToggled) {
-            std::cout << "octDown" << std::endl;
-            audioProcessor.scale.setOctDown(true);
-        } else {
-            std::cout << "No octDown" << std::endl;
-            audioProcessor.scale.setOctDown(false);
-        }
+        audioProcessor.scale.setOctDown(true);
     } else if (btn == &scaleSectionBypassBtn) {
-        if (isToggled) {
-            std::cout << "Bypassed" << std::endl;
-            audioProcessor.scale.setIsActive(false);
-            
-        } else {
-            std::cout << "Not Bypassed" << std::endl;
-            audioProcessor.scale.setIsActive(true);
-        } 
+        audioProcessor.scale.setIsActive(!isToggled);
+    } else if (btn == &scaleSectionChordsAreOnBtn) {
+        audioProcessor.scale.setChordsAreOn(isToggled);
     }
 }
 

@@ -52,6 +52,7 @@ private:
     juce::Label scaleSectionLabel;
     juce::Label scaleSectionKeyLabel;
     juce::Label scaleSectionScaleLabel;
+    juce::ToggleButton scaleSectionChordsAreOnBtn;
     
     juce::Rectangle<int> scaleSectionPianoTopBorder;
     juce::Rectangle<int> scaleSectionPianoLeftBorder;

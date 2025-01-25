@@ -225,7 +225,12 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
         buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedNoteNumber-12, msg.getVelocity()), sampleNumber);
     }
     
-    std::vector<int> chordIntervals = getChordIntervals(adjustedNoteNumber, 3);
+    std::vector<int> chordIntervals;
+    
+    if (chordsAreOn) {
+        chordIntervals = getChordIntervals(adjustedNoteNumber, 3);
+    }
+    
     if (msg.isNoteOn()) {
         buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedNoteNumber, msg.getVelocity()), sampleNumber);
         for (auto interval : chordIntervals)
@@ -261,6 +266,14 @@ void Scale::setOctDown(bool val) {
 
 bool Scale::getOctDown() {
     return octDown;
+}
+
+void Scale::setChordsAreOn(bool val) {
+    chordsAreOn = val;
+}
+
+bool Scale::getChordsAreOn() {
+    return chordsAreOn;
 }
 
 }; // namespace aiomfx
