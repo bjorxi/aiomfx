@@ -17,7 +17,7 @@
 /**
 */
 class AiomFXAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::Timer,
-private juce::ComboBox::Listener, private juce::ToggleButton::Listener
+private juce::ComboBox::Listener, private juce::ToggleButton::Listener, private juce::Slider::Listener
 {
 public:
     AiomFXAudioProcessorEditor (AiomFXAudioProcessor&);
@@ -29,6 +29,7 @@ public:
     void comboBoxChanged(juce::ComboBox *box) override;
     void buttonClicked(juce::Button *button) override;
     void timerCallback() override;
+    void sliderValueChanged(juce::Slider *slider) override;
     
     /**
      * @param x starting offset by X for drawing piano
@@ -53,7 +54,8 @@ private:
     juce::Label scaleSectionKeyLabel;
     juce::Label scaleSectionScaleLabel;
     juce::ToggleButton scaleSectionChordsAreOnBtn;
-    
+    juce::Slider scaleSectionNumOfNotesSlider = juce::Slider(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag,
+                                                             juce::Slider::TextEntryBoxPosition::TextBoxBelow);
     juce::Rectangle<int> scaleSectionPianoTopBorder;
     juce::Rectangle<int> scaleSectionPianoLeftBorder;
     juce::Rectangle<int> scaleSectionPianoRightBorder;

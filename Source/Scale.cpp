@@ -223,7 +223,7 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
     std::vector<int> chordIntervals;
     
     if (chordsAreOn) {
-        chordIntervals = getChordIntervals(adjustedRoot, 3);
+        chordIntervals = getChordIntervals(adjustedRoot, numOfNotesInChords);
     }
     
     if (msg.isNoteOn()) {
@@ -275,6 +275,14 @@ void Scale::setChordsAreOn(bool val) {
 
 bool Scale::getChordsAreOn() {
     return chordsAreOn;
+}
+
+void Scale::setNumOfNotesInChords(int val) {
+    numOfNotesInChords = val;
+}
+
+int Scale::getNumOfNotesInChords() {
+    return numOfNotesInChords;
 }
 
 }; // namespace aiomfx
