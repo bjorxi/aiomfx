@@ -82,6 +82,7 @@ class Scale {
     
     bool octDown = false;
     bool chordsAreOn = true;
+    int numOfNotesInChords = 3;
     
     std::vector<Note> notes {
         Note(1, "C", true), Note(2, "Db", false), Note(3, "D", true),
@@ -153,5 +154,8 @@ public:
     
     void setChordsAreOn(bool val);
     bool getChordsAreOn();
+    
+    void setNumOfNotesInChords(int val);
+    int getNumOfNotesInChords();
 };
 }

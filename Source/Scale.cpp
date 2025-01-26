@@ -277,4 +277,12 @@ bool Scale::getChordsAreOn() {
     return chordsAreOn;
 }
 
+void Scale::setNumOfNotesInChords(int val) {
+    numOfNotesInChords = val;
+}
+
+int Scale::getNumOfNotesInChords() {
+    return numOfNotesInChords;
+}
+
 }; // namespace aiomfx
