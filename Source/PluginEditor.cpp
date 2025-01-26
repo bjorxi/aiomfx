@@ -48,7 +48,7 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     scaleSectionBypassBtn.addListener(this);
     scaleSectionBypassBtn.setToggleable(true);
     
-    if (scale.getIsActive()) {
+    if (audioProcessor.scale.getIsActive()) {
         scaleSectionBypassBtn.setState(juce::Button::ButtonState::buttonDown);
     }
     
@@ -164,7 +164,7 @@ void AiomFXAudioProcessorEditor::buttonClicked(juce::Button *btn) {
     bool isToggled = btn->getToggleState();
     
     if (btn == &scaleSectionOctDownBtn) {
-        audioProcessor.scale.setOctDown(true);
+        audioProcessor.scale.setOctDown(isToggled);
     } else if (btn == &scaleSectionBypassBtn) {
         audioProcessor.scale.setIsActive(!isToggled);
     } else if (btn == &scaleSectionChordsAreOnBtn) {

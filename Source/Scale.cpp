@@ -219,29 +219,30 @@ void Scale::buildScaleMap() {
 void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer& buffer) {
     auto msg = metadata.getMessage();
     int sampleNumber = msg.getTimeStamp();
-    int adjustedNoteNumber = adjustToScale(msg.getNoteNumber());
-    
-    if (octDown and adjustedNoteNumber-12 >= 26) {
-        buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedNoteNumber-12, msg.getVelocity()), sampleNumber);
-    }
-    
+    int adjustedRoot = adjustToScale(msg.getNoteNumber());
     std::vector<int> chordIntervals;
     
     if (chordsAreOn) {
-        chordIntervals = getChordIntervals(adjustedNoteNumber, 3);
+        chordIntervals = getChordIntervals(adjustedRoot, 3);
     }
     
     if (msg.isNoteOn()) {
-        buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedNoteNumber, msg.getVelocity()), sampleNumber);
-        for (auto interval : chordIntervals)
-            buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedNoteNumber+interval, msg.getVelocity()), sampleNumber);
+        buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot, msg.getVelocity()), sampleNumber);
+        
+        if (octDown and adjustedRoot-12 >= 26) {
+            buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot-12, msg.getVelocity()), sampleNumber);
+        }
+        
+        for (auto interval : chordIntervals) {
+            buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot+interval, msg.getVelocity()), sampleNumber);
+        }
     } else if (msg.isNoteOff()) {
         buffer.addEvent(msg, sampleNumber);
-        buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedNoteNumber, msg.getVelocity()), sampleNumber);
+        buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot, msg.getVelocity()), sampleNumber);
         // turn off oct down if it was on
-        buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedNoteNumber-12, msg.getVelocity()), sampleNumber);
+        buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot-12, msg.getVelocity()), sampleNumber);
         for (auto interval : chordIntervals)
-            buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedNoteNumber+interval, msg.getVelocity()), sampleNumber);
+            buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot+interval, msg.getVelocity()), sampleNumber);
     } else {
         buffer.addEvent(msg, sampleNumber);
     }
