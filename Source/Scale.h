@@ -56,19 +56,47 @@ public:
     }
     
     std::vector<int> getChordIntervals(int notes=3) {
-        if (chordType == Note::chordTypeMajor) {
-            return std::vector<int> {4,7};
-        } else if (chordType == Note::chordTypeMajor5) {
-            return std::vector<int> {4,8};
-        } else if (chordType == Note::chordTypeMajorDim) {
-            return std::vector<int> {3, 6};
-        } else if (chordType == Note::chordTypeMajorNo3) {
-            return std::vector<int> {7};
-        } else if (chordType == Note::chordTypeMinor) {
-            return std::vector<int> {3,7};
-        } else if (chordType == Note::chordTypeMinor5) {
-            return std::vector<int> {3, 8};
-        }
+        if (notes == 2 && chordType == Note::chordTypeMajor)
+            return {4};
+        
+        if (notes == 3 && chordType == Note::chordTypeMajor)
+            return {4,7};
+        
+        if (notes == 4 && chordType == Note::chordTypeMajor)
+            return {4,7,11};
+        
+        if (notes == 5 && chordType == Note::chordTypeMajor)
+            return {4,7,11,14};
+        
+        if (notes == 3 && chordType == Note::chordTypeMajor5)
+            return {4,8};
+        
+        if (notes == 3 && chordType == Note::chordTypeMajorDim)
+            return {3, 6};
+        
+        if (notes == 3 && chordType == Note::chordTypeMajorNo3)
+            return {7};
+        
+        if (notes == 2 && chordType == Note::chordTypeMinor)
+            return {3};
+        
+        if (notes == 3 && chordType == Note::chordTypeMinor)
+            return {3,7};
+        
+        if (notes == 4 && chordType == Note::chordTypeMinor)
+            return {3,7,10};
+        
+        if (notes == 5 && chordType == Note::chordTypeMinor)
+            return {3,7,10,14};
+        
+        if (notes == 3 && chordType == Note::chordTypeMinor5)
+            return {3, 8};
+        
+        if (notes == 4 && chordType == Note::chordTypeMinor5)
+            return {3, 8, 10};
+        
+        if (notes == 5 && chordType == Note::chordTypeMinor5)
+            return {3, 8, 10, 13};
         
         return {1,2,3};
     }

@@ -223,7 +223,7 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
     std::vector<int> chordIntervals;
     
     if (chordsAreOn) {
-        chordIntervals = getChordIntervals(adjustedRoot, 3);
+        chordIntervals = getChordIntervals(adjustedRoot, numOfNotesInChords);
     }
     
     if (msg.isNoteOn()) {
