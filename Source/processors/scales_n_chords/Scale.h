@@ -10,8 +10,8 @@ class Scale {
     std::string key;
     std::string name;
     bool isActvie = true;
-    
-    bool octDown = false;
+    bool addOctDown = false;
+    bool addOctUp = false;
     bool chordsAreOn = true;
     int numOfNotesInChords = 3;
     
@@ -73,6 +73,7 @@ public:
      * Adjust a note to the scale if it doesn't belong to the current scale
      *
      * @param noteNumber - MIDI note number
+     * @param numOfotes - number of the notes in the chord. 3 for a triad, 4 for a 7th chord, 5 for a 9th chord
      */
     int adjustToScale(int noteNumber);
     std::vector<int> getChordIntervals(int noteNumber, int numOfNotes);
@@ -80,8 +81,11 @@ public:
     void setIsActive(bool val);
     void process(const juce::MidiMessageMetadata & metadata, juce::MidiBuffer& buffer);
     
-    void setOctDown(bool val);
-    bool getOctDown();
+    void setAddOctDown(bool val);
+    bool getAddOctDown();
+    
+    void setAddOctUp(bool val);
+    bool getAddOctUp();
     
     void setChordsAreOn(bool val);
     bool getChordsAreOn();

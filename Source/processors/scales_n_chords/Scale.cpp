@@ -211,8 +211,12 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
     if (msg.isNoteOn()) {
         buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot, msg.getVelocity()), sampleNumber);
         
-        if (octDown and adjustedRoot-12 >= 26) {
+        if (addOctDown && adjustedRoot-12 >= Note::minNoteNumber) {
             buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot-12, msg.getVelocity()), sampleNumber);
+        }
+        
+        if (addOctUp && adjustedRoot+12 <= Note::maxNoteNumber) {
+            buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot+12, msg.getVelocity()), sampleNumber);
         }
         
         for (auto interval : chordIntervals) {
@@ -221,8 +225,15 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
     } else if (msg.isNoteOff()) {
         buffer.addEvent(msg, sampleNumber);
         buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot, msg.getVelocity()), sampleNumber);
-        // turn off oct down if it was on
-        buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot-12, msg.getVelocity()), sampleNumber);
+        // add a root nimus an octave in case addOctDown was on
+        if (addOctDown && adjustedRoot-12 >= Note::minNoteNumber) {
+            buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot-12, msg.getVelocity()), sampleNumber);
+        }
+        // add a root nimus an octave in case addOctUp was on
+        if (addOctUp && adjustedRoot+12 <= Note::maxNoteNumber) {
+            buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot+12, msg.getVelocity()), sampleNumber);
+        }
+        
         for (auto interval : chordIntervals)
             buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot+interval, msg.getVelocity()), sampleNumber);
     } else {
@@ -243,12 +254,20 @@ std::vector<Note> Scale::getNotes() {
 }
 
 
-void Scale::setOctDown(bool val) {
-    octDown = val;
+void Scale::setAddOctDown(bool val) {
+    addOctDown = val;
 }
 
-bool Scale::getOctDown() {
-    return octDown;
+bool Scale::getAddOctDown() {
+    return addOctDown;
+}
+
+void Scale::setAddOctUp(bool val) {
+    addOctUp = val;
+}
+
+bool Scale::getAddOctUp() {
+    return addOctUp;
 }
 
 void Scale::setChordsAreOn(bool val) {

@@ -29,6 +29,7 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     addAndMakeVisible(scaleSectionOctDownBtn);
     addAndMakeVisible(scaleSectionChordsAreOnBtn);
     addAndMakeVisible(scaleSectionNumOfNotesSlider);
+    addAndMakeVisible(scaleSectionOctUpBtn);
 
     scaleSectionLabel.setFont (juce::Font (18.0f, juce::Font::bold));
     scaleSectionLabel.setText("Scales & Chords", juce::dontSendNotification);
@@ -58,6 +59,12 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     scaleSectionOctDownBtn.setColour(juce::ToggleButton::textColourId, juce::Colours::black);
     scaleSectionOctDownBtn.addListener(this);
     scaleSectionOctDownBtn.setToggleable(true);
+    
+    scaleSectionOctUpBtn.setTitle("Oct Up");
+    scaleSectionOctUpBtn.setButtonText("Oct Up");
+    scaleSectionOctUpBtn.setColour(juce::ToggleButton::textColourId, juce::Colours::black);
+    scaleSectionOctUpBtn.addListener(this);
+    scaleSectionOctUpBtn.setToggleable(true);
 
     scaleSectionChordsAreOnBtn.setTitle("Chords");
     scaleSectionChordsAreOnBtn.setButtonText("Chords");
@@ -156,11 +163,12 @@ void AiomFXAudioProcessorEditor::paint (juce::Graphics& g)
 void AiomFXAudioProcessorEditor::resized() {
     scaleSectionLabel.setBounds(10, 10, 200, 15);
     scaleSectionBypassBtn.setBounds(10, 200, 100, 50);
-    scaleSectionOctDownBtn.setBounds(120, 200, 100, 50);
+    scaleSectionOctDownBtn.setBounds(120, 200, 100, 20);
+    scaleSectionOctUpBtn.setBounds(120, 230, 100, 50);
     scaleSectionChordsAreOnBtn.setBounds(230, 200, 100, 50);
     scaleSectionKeyLabel.setBounds(10, 30, 40, 15);
     scaleSectionNumOfNotesSlider.setBounds(200, 10, 80, 80);
-
+    
     keyDropdown.setBounds(10, 50, 60, 30);
     scaleSectionScaleLabel.setBounds(90, 30, 100, 15);
     scaleDropdown.setBounds(90, 50, 100, 30);
@@ -181,7 +189,9 @@ void AiomFXAudioProcessorEditor::buttonClicked(juce::Button *btn) {
     bool isToggled = btn->getToggleState();
 
     if (btn == &scaleSectionOctDownBtn) {
-        audioProcessor.scale.setOctDown(isToggled);
+        audioProcessor.scale.setAddOctDown(isToggled);
+    } else if (btn == &scaleSectionOctUpBtn) {
+        audioProcessor.scale.setAddOctUp(isToggled);
     } else if (btn == &scaleSectionBypassBtn) {
         audioProcessor.scale.setIsActive(!isToggled);
     } else if (btn == &scaleSectionChordsAreOnBtn) {
@@ -248,7 +258,6 @@ void AiomFXAudioProcessorEditor::drawScaleSectionPiano(int x, int y) {
 }
 
 void AiomFXAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {
-    std::cout << "Slider has been changed:" << slider->getValue() << std::endl;
     if (slider == &scaleSectionNumOfNotesSlider) {
         audioProcessor.scale.setNumOfNotesInChords((int)slider->getValue());
     }

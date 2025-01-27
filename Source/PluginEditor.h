@@ -49,6 +49,7 @@ private:
     juce::ComboBox keyDropdown;
     juce::ComboBox scaleDropdown;
     juce::ToggleButton scaleSectionOctDownBtn;
+    juce::ToggleButton scaleSectionOctUpBtn;
     juce::ToggleButton scaleSectionBypassBtn;
     juce::Label scaleSectionLabel;
     juce::Label scaleSectionKeyLabel;
