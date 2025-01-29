@@ -13,12 +13,16 @@
 AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p), scale("C", "Major")
 {
+    setLookAndFeel(&aiomFXLAF);
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     audioProcessor.setScale(scale);
     setSize (minWidth, minHeight);
     setResizable(true, true);
     setResizeLimits (minWidth, minHeight, maxWidth, maxHeight);
+    
+    const juce::Colour PLUGIN_BACKGROUND_COLOR{59, 96, 94};
+    const juce::Colour TEXT_COLOR{239, 146, 35};
 
     addAndMakeVisible(keyDropdown);
     addAndMakeVisible(scaleDropdown);
@@ -86,7 +90,12 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
             20
     );
     scaleSectionNumOfNotesSlider.addListener(this);
-
+    
+    scaleSectionNumOfNotesSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colour(239, 146, 35));
+    scaleSectionNumOfNotesSlider.setColour(juce::Slider::thumbColourId, juce::Colour(239, 146, 35));
+    scaleSectionNumOfNotesSlider.setColour(juce::Slider::textBoxTextColourId , TEXT_COLOR);
+    scaleSectionNumOfNotesSlider.setColour(juce::Slider::textBoxOutlineColourId, PLUGIN_BACKGROUND_COLOR);
+    
     drawScaleSectionPiano(10, 90);
 
     itor[1] = keyC;
@@ -108,6 +117,7 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
 AiomFXAudioProcessorEditor::~AiomFXAudioProcessorEditor()
 {
     juce::Timer::stopTimer();
+    setLookAndFeel(nullptr);
 }
 
 //==============================================================================

@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "processors/scales_n_chords/Scale.h"
+#include "LookAndFeel.h"
 
 
 //==============================================================================
@@ -39,6 +40,7 @@ public:
 
 private:
     AiomFXAudioProcessor& audioProcessor;
+    aiomfx::AiomFXLookAndFeel aiomFXLAF;
     
     // Min width and heigt of the plugin
     int minWidth = 600;
@@ -90,8 +92,8 @@ private:
     
     juce::Colour scaleSectionPianoBorderColour = juce::Colour(100, 90, 85);
     
-//    juce::Colour backgroundColour = juce::Colour(255, 249, 245);
-    juce::Colour backgroundColour = juce::Colour(86, 100, 139);
+    juce::Colour backgroundColour = juce::Colour(255, 249, 245);
+//    juce::Colour backgroundColour = juce::Colour(86, 100, 139);
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AiomFXAudioProcessorEditor)
 };
