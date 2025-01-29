@@ -16,7 +16,6 @@ This processor adjust played notes to the selected Scale and generates chords ro
 
 
 ## System requirements
----
 Any major DAW that can use VST3 or AU plugins (Ableton Live, Cubase, Logic Pro, etc). AAX version is planned for later. Aiomfx is being tested in Ableton Live, REAPER and Logic Pro.
 
 
