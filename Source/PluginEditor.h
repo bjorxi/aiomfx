@@ -44,7 +44,7 @@ private:
     
     // Min width and heigt of the plugin
     int minWidth = 600;
-    int minHeight = 350;
+    int minHeight = 200;
     int maxWidth = 800;
     int maxHeight = 700;
     
@@ -59,6 +59,13 @@ private:
     juce::ToggleButton scaleSectionChordsAreOnBtn;
     juce::Slider scaleSectionNumOfNotesSlider = juce::Slider(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag,
                                                              juce::Slider::TextEntryBoxPosition::TextBoxBelow);
+    juce::Label scaleSectionNumOfNotesLabel;
+    juce::Label scaleSectionNumOfNotesSliderVal2;
+    juce::Label scaleSectionNumOfNotesSliderVal3;
+    juce::Label scaleSectionNumOfNotesSliderVal4;
+    juce::Label scaleSectionNumOfNotesSliderVal5;
+    
+    juce::Rectangle<int> scaleSectionHeaderBorder;
     juce::Rectangle<int> scaleSectionPianoTopBorder;
     juce::Rectangle<int> scaleSectionPianoLeftBorder;
     juce::Rectangle<int> scaleSectionPianoRightBorder;

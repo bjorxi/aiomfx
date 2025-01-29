@@ -18,8 +18,8 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     // editor's size to whatever you need it to be.
     audioProcessor.setScale(scale);
     setSize (minWidth, minHeight);
-    setResizable(true, true);
-    setResizeLimits (minWidth, minHeight, maxWidth, maxHeight);
+//    setResizable(true, true);
+//    setResizeLimits (minWidth, minHeight, maxWidth, maxHeight);
     
     const juce::Colour PLUGIN_BACKGROUND_COLOR{59, 96, 94};
     const juce::Colour TEXT_COLOR{239, 146, 35};
@@ -34,10 +34,27 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     addAndMakeVisible(scaleSectionChordsAreOnBtn);
     addAndMakeVisible(scaleSectionNumOfNotesSlider);
     addAndMakeVisible(scaleSectionOctUpBtn);
+    addAndMakeVisible(scaleSectionNumOfNotesSliderVal2);
+    addAndMakeVisible(scaleSectionNumOfNotesSliderVal3);
+    addAndMakeVisible(scaleSectionNumOfNotesSliderVal4);
+    addAndMakeVisible(scaleSectionNumOfNotesSliderVal5);
+    addAndMakeVisible(scaleSectionNumOfNotesLabel);
 
     scaleSectionLabel.setFont (juce::Font (18.0f, juce::Font::bold));
     scaleSectionLabel.setText("Scales & Chords", juce::dontSendNotification);
     scaleSectionLabel.setColour(juce::Label::textColourId, juce::Colours::black);
+    
+    scaleSectionNumOfNotesSliderVal2.setText("2", juce::dontSendNotification);
+    scaleSectionNumOfNotesSliderVal2.setColour(juce::Label::textColourId, juce::Colours::black);
+    scaleSectionNumOfNotesSliderVal3.setText("3", juce::dontSendNotification);
+    scaleSectionNumOfNotesSliderVal3.setColour(juce::Label::textColourId, juce::Colours::black);
+    scaleSectionNumOfNotesSliderVal4.setText("4", juce::dontSendNotification);
+    scaleSectionNumOfNotesSliderVal4.setColour(juce::Label::textColourId, juce::Colours::black);
+    scaleSectionNumOfNotesSliderVal5.setText("5", juce::dontSendNotification);
+    scaleSectionNumOfNotesSliderVal5.setColour(juce::Label::textColourId, juce::Colours::black);
+    
+    scaleSectionNumOfNotesLabel.setText("Notes", juce::dontSendNotification);
+    scaleSectionNumOfNotesLabel.setColour(juce::Label::textColourId, juce::Colours::black);
 
     scaleSectionKeyLabel.setText("Key", juce::dontSendNotification);
     scaleSectionKeyLabel.setColour(juce::Label::textColourId, juce::Colours::black);
@@ -77,17 +94,16 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     scaleSectionChordsAreOnBtn.setToggleable(true);
     scaleSectionChordsAreOnBtn.setToggleState(true, juce::dontSendNotification);
 
-    // scaleSectionNumOfNotesSlider.setRange(2.0, 5.0, 1.0);
     juce::NormalisableRange<double> range (2.0, 5.0, 1.0, true); // Snap to integers
     scaleSectionNumOfNotesSlider.setNormalisableRange (range);
     scaleSectionNumOfNotesSlider.setValue(3.0);
     scaleSectionNumOfNotesSlider.setDoubleClickReturnValue(true, 0.0);
     scaleSectionNumOfNotesSlider.setTextBoxIsEditable(false);
     scaleSectionNumOfNotesSlider.setTextBoxStyle(
-            juce::Slider::TextEntryBoxPosition::TextBoxBelow,
-            true,
-            20,
-            20
+                                                 juce::Slider::TextEntryBoxPosition::NoTextBox,
+                                                 true,
+                                                 20,
+                                                 20
     );
     scaleSectionNumOfNotesSlider.addListener(this);
     
@@ -96,7 +112,7 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     scaleSectionNumOfNotesSlider.setColour(juce::Slider::textBoxTextColourId , TEXT_COLOR);
     scaleSectionNumOfNotesSlider.setColour(juce::Slider::textBoxOutlineColourId, PLUGIN_BACKGROUND_COLOR);
     
-    drawScaleSectionPiano(10, 90);
+    drawScaleSectionPiano(10, 100);
 
     itor[1] = keyC;
     itor[2] = keyDb;
@@ -126,8 +142,9 @@ void AiomFXAudioProcessorEditor::paint (juce::Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
 //    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     g.fillAll(backgroundColour);
-
+    
     g.setColour(scaleSectionPianoBorderColour);
+    g.fillRect(scaleSectionHeaderBorder);
     g.fillRect(scaleSectionPianoTopBorder);
     g.fillRect(scaleSectionPianoBottomBorder);
     g.fillRect(scaleSectionPianoLeftBorder);
@@ -171,17 +188,26 @@ void AiomFXAudioProcessorEditor::paint (juce::Graphics& g)
 }
 
 void AiomFXAudioProcessorEditor::resized() {
-    scaleSectionLabel.setBounds(10, 10, 200, 15);
-    scaleSectionBypassBtn.setBounds(10, 200, 100, 50);
-    scaleSectionOctDownBtn.setBounds(120, 200, 100, 20);
-    scaleSectionOctUpBtn.setBounds(120, 230, 100, 50);
-    scaleSectionChordsAreOnBtn.setBounds(230, 200, 100, 50);
-    scaleSectionKeyLabel.setBounds(10, 30, 40, 15);
-    scaleSectionNumOfNotesSlider.setBounds(200, 10, 80, 80);
+    scaleSectionHeaderBorder = juce::Rectangle<int>(0, 30, getWidth(), 2);
+    scaleSectionBypassBtn.setBounds(230, 0, 100, 30);
+    scaleSectionLabel.setBounds(10, 10, 200, 13);
     
-    keyDropdown.setBounds(10, 50, 60, 30);
-    scaleSectionScaleLabel.setBounds(90, 30, 100, 15);
-    scaleDropdown.setBounds(90, 50, 100, 30);
+    scaleSectionKeyLabel.setBounds(10, 40, 40, 15);
+    scaleSectionScaleLabel.setBounds(90, 40, 100, 15);
+    keyDropdown.setBounds(10, 60, 60, 30);
+    scaleDropdown.setBounds(90, 60, 100, 30);
+    
+    scaleSectionChordsAreOnBtn.setBounds(230, 30, 100, 50);
+    
+    scaleSectionNumOfNotesSliderVal2.setBounds(230, 130, 20, 20);
+    scaleSectionNumOfNotesSliderVal3.setBounds(230, 85, 20, 20);
+    scaleSectionNumOfNotesSliderVal4.setBounds(285, 85, 20, 20);
+    scaleSectionNumOfNotesSliderVal5.setBounds(285, 130, 20, 20);
+    scaleSectionNumOfNotesSlider.setBounds(230, 80, 70, 70);
+    scaleSectionNumOfNotesSlider.toFront(false);
+    scaleSectionNumOfNotesLabel.setBounds(243, 115, 50, 80);
+    scaleSectionOctUpBtn.setBounds(400, 70, 100, 50);
+    scaleSectionOctDownBtn.setBounds(400, 120, 100, 20);
 }
 
 void AiomFXAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
