@@ -52,7 +52,7 @@ void AiomFXLookAndFeel::drawRotarySlider (juce::Graphics& g, int x, int y, int w
     
     g.setColour (AIOMFX_RED);
     g.drawLine(backgroundArc.getBounds().getCentreX(), backgroundArc.getBounds().getCentreY(),
-               thumbPoint.getX(), thumbPoint.getY(), 2.0f);
+               thumbPoint.getX(), thumbPoint.getY(), 4.0f);
 }
 
 

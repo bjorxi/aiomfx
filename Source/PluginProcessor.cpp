@@ -136,10 +136,19 @@ void AiomFXAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     juce::MidiBuffer newBuffer;    
     bool swapBuffers = false;
     for (const juce::MidiMessageMetadata metadata : midiMessages) {
+        auto msg = metadata.getMessage();
         if (scale.getIsActive()) {
             scale.process(metadata, newBuffer);
             swapBuffers = true;
+            
+            if (msg.isNoteOn()) {
+                setCurrentNoteNumer(msg.getNoteNumber());
+            } else {
+                setCurrentNoteNumer(-1);
+            }
         }
+        
+        
     }
     if (swapBuffers)
         midiMessages.swapWith(newBuffer);
