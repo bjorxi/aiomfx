@@ -38,7 +38,7 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     addAndMakeVisible(scaleSectionNumOfNotesSliderVal3);
     addAndMakeVisible(scaleSectionNumOfNotesSliderVal4);
     addAndMakeVisible(scaleSectionNumOfNotesSliderVal5);
-    addAndMakeVisible(scaleSectionNumOfNotesLabel);
+    addAndMakeVisible(scaleSectionNumOfNotesSliderLabel);
 
     scaleSectionLabel.setFont (juce::Font (18.0f, juce::Font::bold));
     scaleSectionLabel.setText("Scales & Chords", juce::dontSendNotification);
@@ -53,8 +53,8 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     scaleSectionNumOfNotesSliderVal5.setText("5", juce::dontSendNotification);
     scaleSectionNumOfNotesSliderVal5.setColour(juce::Label::textColourId, juce::Colours::black);
     
-    scaleSectionNumOfNotesLabel.setText("Notes", juce::dontSendNotification);
-    scaleSectionNumOfNotesLabel.setColour(juce::Label::textColourId, juce::Colours::black);
+    scaleSectionNumOfNotesSliderLabel.setText("Notes", juce::dontSendNotification);
+    scaleSectionNumOfNotesSliderLabel.setColour(juce::Label::textColourId, juce::Colours::black);
 
     scaleSectionKeyLabel.setText("Key", juce::dontSendNotification);
     scaleSectionKeyLabel.setColour(juce::Label::textColourId, juce::Colours::black);
@@ -205,7 +205,7 @@ void AiomFXAudioProcessorEditor::resized() {
     scaleSectionNumOfNotesSliderVal5.setBounds(285, 130, 20, 20);
     scaleSectionNumOfNotesSlider.setBounds(230, 80, 70, 70);
     scaleSectionNumOfNotesSlider.toFront(false);
-    scaleSectionNumOfNotesLabel.setBounds(243, 115, 50, 80);
+    scaleSectionNumOfNotesSliderLabel.setBounds(243, 115, 50, 80);
     scaleSectionOctUpBtn.setBounds(400, 70, 100, 50);
     scaleSectionOctDownBtn.setBounds(400, 120, 100, 20);
 }

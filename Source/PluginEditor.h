@@ -59,7 +59,7 @@ private:
     juce::ToggleButton scaleSectionChordsAreOnBtn;
     juce::Slider scaleSectionNumOfNotesSlider = juce::Slider(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag,
                                                              juce::Slider::TextEntryBoxPosition::TextBoxBelow);
-    juce::Label scaleSectionNumOfNotesLabel;
+    juce::Label scaleSectionNumOfNotesSliderLabel;
     juce::Label scaleSectionNumOfNotesSliderVal2;
     juce::Label scaleSectionNumOfNotesSliderVal3;
     juce::Label scaleSectionNumOfNotesSliderVal4;
