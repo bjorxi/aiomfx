@@ -286,4 +286,12 @@ int Scale::getNumOfNotesInChords() {
     return numOfNotesInChords;
 }
 
+void Scale::setInversion(int val) {
+    inversion = val;
+}
+
+int Scale::getInversion() {
+    return inversion;
+}
+
 }; // namespace aiomfx
