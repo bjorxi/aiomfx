@@ -10,6 +10,8 @@
       <FILE id="lzZtZe" name="LookAndFeel.h" compile="0" resource="0" file="Source/LookAndFeel.h"/>
       <GROUP id="{9F0458F3-D8E3-95A6-7B7B-D84F8BA3619A}" name="processors">
         <GROUP id="{CC960D23-22BF-D6E1-A597-FAE148A23613}" name="scales_n_chords">
+          <FILE id="vOSCXg" name="Chord.cpp" compile="1" resource="0" file="Source/processors/scales_n_chords/Chord.cpp"/>
+          <FILE id="O40acA" name="Chord.h" compile="0" resource="0" file="Source/processors/scales_n_chords/Chord.h"/>
           <FILE id="ZQNjgD" name="Note.cpp" compile="1" resource="0" file="Source/processors/scales_n_chords/Note.cpp"/>
           <FILE id="pqiVAo" name="Note.h" compile="0" resource="0" file="Source/processors/scales_n_chords/Note.h"/>
           <FILE id="dmF2vF" name="Scale.cpp" compile="1" resource="0" file="Source/processors/scales_n_chords/Scale.cpp"/>

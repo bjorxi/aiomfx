@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 
 #include "Note.h"
+#include "Chord.h"
 
 namespace aiomfx {
 

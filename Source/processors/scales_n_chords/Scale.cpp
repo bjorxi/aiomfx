@@ -54,8 +54,8 @@ void Scale::buildScale(std::vector<int> &intervals, std::vector<int> &chordTypes
 void Scale::buildMajorScale() {
     std::vector<int> intervals {2,2,1,2,2,2};
     std::vector<int> chordTypes {
-        Note::chordTypeMajor, Note::chordTypeMinor, Note::chordTypeMinor,
-        Note::chordTypeMajor, Note::chordTypeMajor, Note::chordTypeMinor, Note::chordTypeMinor5};
+        Chord::MAJOR, Chord::MINOR, Chord::MINOR,
+        Chord::MAJOR, Chord::MAJOR, Chord::MINOR, Chord::DIM};
     buildScale(intervals, chordTypes);
 }
 
@@ -208,9 +208,11 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
         chordIntervals = getChordIntervals(adjustedRoot, numOfNotesInChords);
     }
     
-    if (msg.isNoteOn()) {
-        buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot, msg.getVelocity()), sampleNumber);
-        
+//    if (inversion > 1) {
+//        Chord::invert(notes, inversion);
+//    }
+    
+    if (msg.isNoteOn()) {        
         if (addOctDown && adjustedRoot-12 >= Note::minNoteNumber) {
             buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot-12, msg.getVelocity()), sampleNumber);
         }
@@ -225,11 +227,11 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
     } else if (msg.isNoteOff()) {
         buffer.addEvent(msg, sampleNumber);
         buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot, msg.getVelocity()), sampleNumber);
-        // add a root nimus an octave in case addOctDown was on
+        // add a root minus an octave in case addOctDown was on
         if (addOctDown && adjustedRoot-12 >= Note::minNoteNumber) {
             buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot-12, msg.getVelocity()), sampleNumber);
         }
-        // add a root nimus an octave in case addOctUp was on
+        // add a root minus an octave in case addOctUp was on
         if (addOctUp && adjustedRoot+12 <= Note::maxNoteNumber) {
             buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot+12, msg.getVelocity()), sampleNumber);
         }

@@ -56,6 +56,8 @@ public:
         return chordType;
     }
     
+    static std::string getNameFromNoteNumber(int nodeNum);
+    
     std::vector<int> getChordIntervals(int notes=3) {
         // Major chords
         
