@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 
 #include "Note.h"
+#include "Chord.h"
 
 namespace aiomfx {
 
@@ -14,6 +15,7 @@ class Scale {
     bool addOctUp = false;
     bool chordsAreOn = true;
     int numOfNotesInChords = 3;
+    int inversion = 1;
     
     std::vector<Note> notes {
         Note(1, "C", true), Note(2, "Db", false), Note(3, "D", true),
@@ -92,5 +94,10 @@ public:
     
     void setNumOfNotesInChords(int val);
     int getNumOfNotesInChords();
+    
+    void setInversion(int val);
+    int getInversion();
+    
+    void invertChord(std::deque<int> &notes, int inversion);
 };
 }

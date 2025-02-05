@@ -59,11 +59,20 @@ private:
     juce::ToggleButton scaleSectionChordsAreOnBtn;
     juce::Slider scaleSectionNumOfNotesSlider = juce::Slider(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag,
                                                              juce::Slider::TextEntryBoxPosition::TextBoxBelow);
-    juce::Label scaleSectionNumOfNotesLabel;
+    juce::Label scaleSectionNumOfNotesSliderLabel;
     juce::Label scaleSectionNumOfNotesSliderVal2;
     juce::Label scaleSectionNumOfNotesSliderVal3;
     juce::Label scaleSectionNumOfNotesSliderVal4;
     juce::Label scaleSectionNumOfNotesSliderVal5;
+    
+    
+    juce::Slider scaleSectionInversionSlider = juce::Slider(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag,
+                                                            juce::Slider::TextEntryBoxPosition::NoTextBox);
+    juce::Label scaleSectionInversionSliderLabel;
+    juce::Label scaleSectionInversionSliderVal0;
+    juce::Label scaleSectionInversionSliderVal1;
+    juce::Label scaleSectionInversionSliderVal2;
+    juce::Label scaleSectionInversionSliderVal3;
     
     juce::Rectangle<int> scaleSectionHeaderBorder;
     juce::Rectangle<int> scaleSectionPianoTopBorder;

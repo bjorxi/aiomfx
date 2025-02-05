@@ -38,7 +38,13 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     addAndMakeVisible(scaleSectionNumOfNotesSliderVal3);
     addAndMakeVisible(scaleSectionNumOfNotesSliderVal4);
     addAndMakeVisible(scaleSectionNumOfNotesSliderVal5);
-    addAndMakeVisible(scaleSectionNumOfNotesLabel);
+    addAndMakeVisible(scaleSectionNumOfNotesSliderLabel);
+    addAndMakeVisible(scaleSectionInversionSlider);
+    addAndMakeVisible(scaleSectionInversionSliderLabel);
+    addAndMakeVisible(scaleSectionInversionSliderVal0);
+    addAndMakeVisible(scaleSectionInversionSliderVal1);
+    addAndMakeVisible(scaleSectionInversionSliderVal2);
+    addAndMakeVisible(scaleSectionInversionSliderVal3);
 
     scaleSectionLabel.setFont (juce::Font (18.0f, juce::Font::bold));
     scaleSectionLabel.setText("Scales & Chords", juce::dontSendNotification);
@@ -53,8 +59,20 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     scaleSectionNumOfNotesSliderVal5.setText("5", juce::dontSendNotification);
     scaleSectionNumOfNotesSliderVal5.setColour(juce::Label::textColourId, juce::Colours::black);
     
-    scaleSectionNumOfNotesLabel.setText("Notes", juce::dontSendNotification);
-    scaleSectionNumOfNotesLabel.setColour(juce::Label::textColourId, juce::Colours::black);
+    scaleSectionNumOfNotesSliderLabel.setText("Notes", juce::dontSendNotification);
+    scaleSectionNumOfNotesSliderLabel.setColour(juce::Label::textColourId, juce::Colours::black);
+    
+    scaleSectionInversionSliderLabel.setText("Inversion", juce::dontSendNotification);
+    scaleSectionInversionSliderLabel.setColour(juce::Label::textColourId, juce::Colours::black);
+    
+    scaleSectionInversionSliderVal0.setText("0", juce::dontSendNotification);
+    scaleSectionInversionSliderVal0.setColour(juce::Label::textColourId, juce::Colours::black);
+    scaleSectionInversionSliderVal1.setText("1", juce::dontSendNotification);
+    scaleSectionInversionSliderVal1.setColour(juce::Label::textColourId, juce::Colours::black);
+    scaleSectionInversionSliderVal2.setText("2", juce::dontSendNotification);
+    scaleSectionInversionSliderVal2.setColour(juce::Label::textColourId, juce::Colours::black);
+    scaleSectionInversionSliderVal3.setText("3", juce::dontSendNotification);
+    scaleSectionInversionSliderVal3.setColour(juce::Label::textColourId, juce::Colours::black);
 
     scaleSectionKeyLabel.setText("Key", juce::dontSendNotification);
     scaleSectionKeyLabel.setColour(juce::Label::textColourId, juce::Colours::black);
@@ -111,6 +129,25 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     scaleSectionNumOfNotesSlider.setColour(juce::Slider::thumbColourId, juce::Colour(239, 146, 35));
     scaleSectionNumOfNotesSlider.setColour(juce::Slider::textBoxTextColourId , TEXT_COLOR);
     scaleSectionNumOfNotesSlider.setColour(juce::Slider::textBoxOutlineColourId, PLUGIN_BACKGROUND_COLOR);
+    
+    // INVERSION SLIDER
+    juce::NormalisableRange<double> range2 (0.0, 3.0, 1.0, true); // Snap to integers
+    scaleSectionInversionSlider.setNormalisableRange (range2);
+    scaleSectionInversionSlider.setValue(0.0);
+    scaleSectionInversionSlider.setDoubleClickReturnValue(true, 0.0);
+    scaleSectionInversionSlider.setTextBoxIsEditable(false);
+    scaleSectionInversionSlider.setTextBoxStyle(
+                                                 juce::Slider::TextEntryBoxPosition::NoTextBox,
+                                                 true,
+                                                 20,
+                                                 20
+    );
+    scaleSectionInversionSlider.addListener(this);
+    
+    scaleSectionInversionSlider.setColour(juce::Slider::rotarySliderFillColourId, juce::Colour(239, 146, 35));
+    scaleSectionInversionSlider.setColour(juce::Slider::thumbColourId, juce::Colour(239, 146, 35));
+    scaleSectionInversionSlider.setColour(juce::Slider::textBoxTextColourId , TEXT_COLOR);
+    scaleSectionInversionSlider.setColour(juce::Slider::textBoxOutlineColourId, PLUGIN_BACKGROUND_COLOR);
     
     drawScaleSectionPiano(10, 100);
 
@@ -205,13 +242,22 @@ void AiomFXAudioProcessorEditor::resized() {
     scaleSectionNumOfNotesSliderVal5.setBounds(285, 130, 20, 20);
     scaleSectionNumOfNotesSlider.setBounds(230, 80, 70, 70);
     scaleSectionNumOfNotesSlider.toFront(false);
-    scaleSectionNumOfNotesLabel.setBounds(243, 115, 50, 80);
-    scaleSectionOctUpBtn.setBounds(400, 70, 100, 50);
-    scaleSectionOctDownBtn.setBounds(400, 120, 100, 20);
+    scaleSectionNumOfNotesSliderLabel.setBounds(243, 115, 50, 80);
+    
+    scaleSectionInversionSliderVal0.setBounds(325, 130, 20, 20);
+    scaleSectionInversionSliderVal1.setBounds(325, 85, 20, 20);
+    scaleSectionInversionSliderVal2.setBounds(380, 85, 20, 20);
+    scaleSectionInversionSliderVal3.setBounds(380, 130, 20, 20);
+    scaleSectionInversionSlider.setBounds(325, 80, 70, 70);
+    scaleSectionInversionSlider.toFront(false);
+    scaleSectionInversionSliderLabel.setBounds(329, 115, 70, 80);
+    
+    
+    scaleSectionOctUpBtn.setBounds(430, 70, 100, 50);
+    scaleSectionOctDownBtn.setBounds(430, 120, 100, 20);
 }
 
 void AiomFXAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
-//    std::cout << keyDropdown.getText() << " | " << scaleDropdown.getText() << std::endl;
     if (box == &keyDropdown || box == &scaleDropdown) {
         aiomfx::Scale newScale(keyDropdown.getText().toStdString(),
                        scaleDropdown.getText().toStdString());
@@ -296,5 +342,7 @@ void AiomFXAudioProcessorEditor::drawScaleSectionPiano(int x, int y) {
 void AiomFXAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {
     if (slider == &scaleSectionNumOfNotesSlider) {
         audioProcessor.scale.setNumOfNotesInChords((int)slider->getValue());
+    } else if(slider == &scaleSectionInversionSlider) {
+        audioProcessor.scale.setInversion((int)slider->getValue());
     }
 }

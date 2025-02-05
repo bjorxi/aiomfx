@@ -203,14 +203,22 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
     int sampleNumber = msg.getTimeStamp();
     int adjustedRoot = adjustToScale(msg.getNoteNumber());
     std::vector<int> chordIntervals;
-    
+    std::deque<int> addedNotes{adjustedRoot};
+    // TODO: rewrite how chords are generated using the Chord class
     if (chordsAreOn) {
         chordIntervals = getChordIntervals(adjustedRoot, numOfNotesInChords);
+        
+        for (auto interval : chordIntervals) {
+            addedNotes.push_back(adjustedRoot+interval);
+        }
+        
+        if (inversion > 0) {
+            invertChord(addedNotes, inversion);
+        }
     }
     
     if (msg.isNoteOn()) {
-        buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot, msg.getVelocity()), sampleNumber);
-        
+        // TODO: add oct up/down into the addedNotes deque?
         if (addOctDown && adjustedRoot-12 >= Note::minNoteNumber) {
             buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot-12, msg.getVelocity()), sampleNumber);
         }
@@ -219,23 +227,23 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
             buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot+12, msg.getVelocity()), sampleNumber);
         }
         
-        for (auto interval : chordIntervals) {
-            buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot+interval, msg.getVelocity()), sampleNumber);
+        for (auto note : addedNotes) {
+            buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), note, msg.getVelocity()), sampleNumber);
         }
     } else if (msg.isNoteOff()) {
         buffer.addEvent(msg, sampleNumber);
         buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot, msg.getVelocity()), sampleNumber);
-        // add a root nimus an octave in case addOctDown was on
+        // add a root minus an octave in case addOctDown was on
         if (addOctDown && adjustedRoot-12 >= Note::minNoteNumber) {
             buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot-12, msg.getVelocity()), sampleNumber);
         }
-        // add a root nimus an octave in case addOctUp was on
+        // add a root minus an octave in case addOctUp was on
         if (addOctUp && adjustedRoot+12 <= Note::maxNoteNumber) {
             buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot+12, msg.getVelocity()), sampleNumber);
         }
         
-        for (auto interval : chordIntervals)
-            buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot+interval, msg.getVelocity()), sampleNumber);
+        for (auto note : addedNotes)
+            buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), note, msg.getVelocity()), sampleNumber);
     } else {
         buffer.addEvent(msg, sampleNumber);
     }
@@ -285,5 +293,34 @@ void Scale::setNumOfNotesInChords(int val) {
 int Scale::getNumOfNotesInChords() {
     return numOfNotesInChords;
 }
+
+void Scale::setInversion(int val) {
+    inversion = val;
+}
+
+int Scale::getInversion() {
+    return inversion;
+}
+
+void Scale::invertChord(std::deque<int> &notes, int inversion) {
+    if (inversion <= 0)
+        return;
+    
+    notes.push_back(notes.front()+12);
+    notes.pop_front();
+    
+    if (inversion == 1)
+        return;
+    
+    notes.push_back(notes.front()+12);
+    notes.pop_front();
+    
+    if (inversion == 2)
+        return;
+        
+    notes.push_back(notes.front()+12);
+    notes.pop_front();
+}
+
 
 }; // namespace aiomfx
