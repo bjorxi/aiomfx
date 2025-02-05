@@ -7,19 +7,6 @@
 
 namespace aiomfx {
 
-//enum ChordType {
-//    MAJOR,
-//    MAJOR_5TH,
-//    MAJOR_DIM,
-//    MAJOR_NO3,
-//    
-//    MINOR,
-//    MINOR_5TH,
-//    MINOR_DIM,
-//    MINOR_7TH,
-//    MINOR_NO3,
-//};
-
 class Chord {
 public:
     // Available chord types
@@ -75,12 +62,11 @@ private:
     Type type;
 public:
     Chord(int rootNoteId, Type type);
+    Chord(Type type);
     std::string getName();
     std::vector<int> getIntervals();
     std::vector<int> invert(Inversion inversion);
-    std::vector<int> makeOpen();
-    
-    
+    std::vector<int> makeOpen();    
 };
 
 }

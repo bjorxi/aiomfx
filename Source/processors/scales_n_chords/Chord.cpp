@@ -4,6 +4,10 @@
 namespace aiomfx {
 
 
+Chord::Chord(Type type) : type(type) {
+    Chord(0, type);
+}
+
 Chord::Chord(int rootNoteId, Type type) : rootNoteId(rootNoteId), type(type) {
     if (type == Type::MAJOR) {
         intervals = std::vector<int>{0,4,7};
