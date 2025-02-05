@@ -97,5 +97,7 @@ public:
     
     void setInversion(int val);
     int getInversion();
+    
+    void invertChord(std::deque<int> &notes, int inversion);
 };
 }

@@ -41,10 +41,10 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     addAndMakeVisible(scaleSectionNumOfNotesSliderLabel);
     addAndMakeVisible(scaleSectionInversionSlider);
     addAndMakeVisible(scaleSectionInversionSliderLabel);
+    addAndMakeVisible(scaleSectionInversionSliderVal0);
     addAndMakeVisible(scaleSectionInversionSliderVal1);
     addAndMakeVisible(scaleSectionInversionSliderVal2);
     addAndMakeVisible(scaleSectionInversionSliderVal3);
-    addAndMakeVisible(scaleSectionInversionSliderVal4);
 
     scaleSectionLabel.setFont (juce::Font (18.0f, juce::Font::bold));
     scaleSectionLabel.setText("Scales & Chords", juce::dontSendNotification);
@@ -65,14 +65,14 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     scaleSectionInversionSliderLabel.setText("Inversion", juce::dontSendNotification);
     scaleSectionInversionSliderLabel.setColour(juce::Label::textColourId, juce::Colours::black);
     
+    scaleSectionInversionSliderVal0.setText("0", juce::dontSendNotification);
+    scaleSectionInversionSliderVal0.setColour(juce::Label::textColourId, juce::Colours::black);
     scaleSectionInversionSliderVal1.setText("1", juce::dontSendNotification);
     scaleSectionInversionSliderVal1.setColour(juce::Label::textColourId, juce::Colours::black);
     scaleSectionInversionSliderVal2.setText("2", juce::dontSendNotification);
     scaleSectionInversionSliderVal2.setColour(juce::Label::textColourId, juce::Colours::black);
     scaleSectionInversionSliderVal3.setText("3", juce::dontSendNotification);
     scaleSectionInversionSliderVal3.setColour(juce::Label::textColourId, juce::Colours::black);
-    scaleSectionInversionSliderVal4.setText("4", juce::dontSendNotification);
-    scaleSectionInversionSliderVal4.setColour(juce::Label::textColourId, juce::Colours::black);
 
     scaleSectionKeyLabel.setText("Key", juce::dontSendNotification);
     scaleSectionKeyLabel.setColour(juce::Label::textColourId, juce::Colours::black);
@@ -131,9 +131,9 @@ AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
     scaleSectionNumOfNotesSlider.setColour(juce::Slider::textBoxOutlineColourId, PLUGIN_BACKGROUND_COLOR);
     
     // INVERSION SLIDER
-    juce::NormalisableRange<double> range2 (1.0, 4.0, 1.0, true); // Snap to integers
+    juce::NormalisableRange<double> range2 (0.0, 3.0, 1.0, true); // Snap to integers
     scaleSectionInversionSlider.setNormalisableRange (range2);
-    scaleSectionInversionSlider.setValue(1.0);
+    scaleSectionInversionSlider.setValue(0.0);
     scaleSectionInversionSlider.setDoubleClickReturnValue(true, 0.0);
     scaleSectionInversionSlider.setTextBoxIsEditable(false);
     scaleSectionInversionSlider.setTextBoxStyle(
@@ -244,10 +244,10 @@ void AiomFXAudioProcessorEditor::resized() {
     scaleSectionNumOfNotesSlider.toFront(false);
     scaleSectionNumOfNotesSliderLabel.setBounds(243, 115, 50, 80);
     
-    scaleSectionInversionSliderVal1.setBounds(325, 130, 20, 20);
-    scaleSectionInversionSliderVal2.setBounds(325, 85, 20, 20);
-    scaleSectionInversionSliderVal3.setBounds(380, 85, 20, 20);
-    scaleSectionInversionSliderVal4.setBounds(380, 130, 20, 20);
+    scaleSectionInversionSliderVal0.setBounds(325, 130, 20, 20);
+    scaleSectionInversionSliderVal1.setBounds(325, 85, 20, 20);
+    scaleSectionInversionSliderVal2.setBounds(380, 85, 20, 20);
+    scaleSectionInversionSliderVal3.setBounds(380, 130, 20, 20);
     scaleSectionInversionSlider.setBounds(325, 80, 70, 70);
     scaleSectionInversionSlider.toFront(false);
     scaleSectionInversionSliderLabel.setBounds(329, 115, 70, 80);
@@ -344,6 +344,7 @@ void AiomFXAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {
     if (slider == &scaleSectionNumOfNotesSlider) {
         audioProcessor.scale.setNumOfNotesInChords((int)slider->getValue());
     } else if(slider == &scaleSectionInversionSlider) {
+        std::cout << "Slider has been changed::inversion " << (int)slider->getValue() << std::endl;
         audioProcessor.scale.setInversion((int)slider->getValue());
     }
 }

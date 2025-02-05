@@ -54,8 +54,8 @@ void Scale::buildScale(std::vector<int> &intervals, std::vector<int> &chordTypes
 void Scale::buildMajorScale() {
     std::vector<int> intervals {2,2,1,2,2,2};
     std::vector<int> chordTypes {
-        Chord::MAJOR, Chord::MINOR, Chord::MINOR,
-        Chord::MAJOR, Chord::MAJOR, Chord::MINOR, Chord::DIM};
+        Note::chordTypeMajor, Note::chordTypeMinor, Note::chordTypeMinor,
+        Note::chordTypeMajor, Note::chordTypeMajor, Note::chordTypeMinor, Note::chordTypeMinor5};
     buildScale(intervals, chordTypes);
 }
 
@@ -203,16 +203,22 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
     int sampleNumber = msg.getTimeStamp();
     int adjustedRoot = adjustToScale(msg.getNoteNumber());
     std::vector<int> chordIntervals;
-    
+    std::deque<int> addedNotes{adjustedRoot};
+    // TODO: rewrite how chords are generated using the Chord class
     if (chordsAreOn) {
         chordIntervals = getChordIntervals(adjustedRoot, numOfNotesInChords);
+        
+        for (auto interval : chordIntervals) {
+            addedNotes.push_back(adjustedRoot+interval);
+        }
+        
+        if (inversion > 1) {
+            invertChord(addedNotes, inversion);
+        }
     }
     
-//    if (inversion > 1) {
-//        Chord::invert(notes, inversion);
-//    }
-    
-    if (msg.isNoteOn()) {        
+    if (msg.isNoteOn()) {
+        // TODO: add oct up/down into the addedNotes deque?
         if (addOctDown && adjustedRoot-12 >= Note::minNoteNumber) {
             buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot-12, msg.getVelocity()), sampleNumber);
         }
@@ -221,8 +227,8 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
             buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot+12, msg.getVelocity()), sampleNumber);
         }
         
-        for (auto interval : chordIntervals) {
-            buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), adjustedRoot+interval, msg.getVelocity()), sampleNumber);
+        for (auto note : addedNotes) {
+            buffer.addEvent(juce::MidiMessage::noteOn(msg.getChannel(), note, msg.getVelocity()), sampleNumber);
         }
     } else if (msg.isNoteOff()) {
         buffer.addEvent(msg, sampleNumber);
@@ -236,8 +242,8 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
             buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot+12, msg.getVelocity()), sampleNumber);
         }
         
-        for (auto interval : chordIntervals)
-            buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), adjustedRoot+interval, msg.getVelocity()), sampleNumber);
+        for (auto note : addedNotes)
+            buffer.addEvent(juce::MidiMessage::noteOff(msg.getChannel(), note, msg.getVelocity()), sampleNumber);
     } else {
         buffer.addEvent(msg, sampleNumber);
     }
@@ -289,11 +295,33 @@ int Scale::getNumOfNotesInChords() {
 }
 
 void Scale::setInversion(int val) {
+    std::cout << "Scale::setInversion::inversion " << val << std::endl;
     inversion = val;
 }
 
 int Scale::getInversion() {
     return inversion;
 }
+
+void Scale::invertChord(std::deque<int> &notes, int inversion) {
+    if (inversion <= 0)
+        return;
+    
+    notes.push_back(notes.front()+12);
+    notes.pop_front();
+    
+    if (inversion == 1)
+        return;
+    
+    notes.push_back(notes.front()+12);
+    notes.pop_front();
+    
+    if (inversion == 2)
+        return;
+    
+    notes.push_back(notes.front()+12);
+    notes.pop_front();
+}
+
 
 }; // namespace aiomfx

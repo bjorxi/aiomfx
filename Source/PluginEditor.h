@@ -69,10 +69,10 @@ private:
     juce::Slider scaleSectionInversionSlider = juce::Slider(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag,
                                                             juce::Slider::TextEntryBoxPosition::NoTextBox);
     juce::Label scaleSectionInversionSliderLabel;
+    juce::Label scaleSectionInversionSliderVal0;
     juce::Label scaleSectionInversionSliderVal1;
     juce::Label scaleSectionInversionSliderVal2;
     juce::Label scaleSectionInversionSliderVal3;
-    juce::Label scaleSectionInversionSliderVal4;
     
     juce::Rectangle<int> scaleSectionHeaderBorder;
     juce::Rectangle<int> scaleSectionPianoTopBorder;
