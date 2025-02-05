@@ -258,7 +258,6 @@ void AiomFXAudioProcessorEditor::resized() {
 }
 
 void AiomFXAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
-//    std::cout << keyDropdown.getText() << " | " << scaleDropdown.getText() << std::endl;
     if (box == &keyDropdown || box == &scaleDropdown) {
         aiomfx::Scale newScale(keyDropdown.getText().toStdString(),
                        scaleDropdown.getText().toStdString());
@@ -344,7 +343,6 @@ void AiomFXAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {
     if (slider == &scaleSectionNumOfNotesSlider) {
         audioProcessor.scale.setNumOfNotesInChords((int)slider->getValue());
     } else if(slider == &scaleSectionInversionSlider) {
-        std::cout << "Slider has been changed::inversion " << (int)slider->getValue() << std::endl;
         audioProcessor.scale.setInversion((int)slider->getValue());
     }
 }

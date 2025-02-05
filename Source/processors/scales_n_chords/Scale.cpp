@@ -212,7 +212,7 @@ void Scale::process(const juce::MidiMessageMetadata& metadata, juce::MidiBuffer&
             addedNotes.push_back(adjustedRoot+interval);
         }
         
-        if (inversion > 1) {
+        if (inversion > 0) {
             invertChord(addedNotes, inversion);
         }
     }
@@ -295,7 +295,6 @@ int Scale::getNumOfNotesInChords() {
 }
 
 void Scale::setInversion(int val) {
-    std::cout << "Scale::setInversion::inversion " << val << std::endl;
     inversion = val;
 }
 
@@ -318,7 +317,7 @@ void Scale::invertChord(std::deque<int> &notes, int inversion) {
     
     if (inversion == 2)
         return;
-    
+        
     notes.push_back(notes.front()+12);
     notes.pop_front();
 }
