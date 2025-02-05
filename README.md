@@ -20,10 +20,14 @@ By default both functions are enabled.
 
 #### Scales
 ![screenshot](scale_chords_scale.png)
+
+
 This processor will fit played not into the selected scale. To pick a scale use `Key` and `Scale` dropdowns.
 
 #### Chords
 ![screenshot](scale_chords_chords.png)
+
+
 To enable/disable chord generation click the button left to `Chords` label. What chord is generated can be controlled using `Notes` and `Inversions` sliders to set the number of notes in the chord and chord's inversion respectively. These controls can add nice voicing to the chord. Additionally it's possible to add a note an octave up or down (or both) by clicking the `oct up` and `oct down` button respectively.
 
 ## System requirements
