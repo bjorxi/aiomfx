@@ -1,21 +1,33 @@
 # aiomfx
 
-Aiomfx is a MIDI processing plugin. Currently there are no released versions, the plugin is still work in progress.
+Aiomfx is a MIDI processing plugin.
+Currently it has only one FX "Scales and Chords" however the grand plan is to add more FX:
+ * velocity randomisation
+ * note randomisation
+ * arpegiator
+ * step sequencer
+ * etc
 
 ![screenshot](aiomfx.png)
-
-UI is work in progress as well. 
-
 
 
 ## Processors
 
 ### Scales and Chords
-This processor adjust played notes to the selected Scale and generates chords rooted from the keys of the scale. More documentation is coming soon ...
+Scales and Chords either transposes played notes to fit a selected scale or transposes notes and generates chords from a single note that fit the selected scale. 
 
+By default both functions are enabled.
 
+#### Scales
+![screenshot](scale_chords_scale.png)
+This processor will fit played not into the selected scale. To pick a scale use `Key` and `Scale` dropdowns.
+
+#### Chords
+![screenshot](scale_chords_chords.png)
+To enable/disable chord generation click the button left to `Chords` label. What chord is generated can be controlled using `Notes` and `Inversions` sliders to set the number of notes in the chord and chord's inversion respectively. These controls can add nice voicing to the chord. Additionally it's possible to add a note an octave up or down (or both) by clicking the `oct up` and `oct down` button respectively.
 
 ## System requirements
-Any major DAW that can use VST3 or AU plugins (Ableton Live, Cubase, Logic Pro, etc). AAX version is planned for later. Aiomfx is being tested in Ableton Live, REAPER and Logic Pro.
+Any major DAW that can use VST3 or AU plugins (Ableton Live, Cubase, Logic Pro, etc). 
 
+Aiomfx currently is being tested in Ableton Live, REAPER.
 
