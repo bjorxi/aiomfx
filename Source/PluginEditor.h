@@ -92,7 +92,6 @@ private:
     juce::Rectangle<int> keyBb;
     juce::Rectangle<int> keyB;
 
-    aiomfx::Scale scale;
     std::map<int, juce::Rectangle<int>> itor;
     void setUpDropdown(juce::ComboBox &dropdown, const std::vector<std::string> &options, int selectedOption, bool addListener);
     

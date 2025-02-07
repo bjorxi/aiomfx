@@ -15,7 +15,7 @@ class Scale {
     bool addOctUp = false;
     bool chordsAreOn = true;
     int numOfNotesInChords = 3;
-    int inversion = 1;
+    int inversion = 0;
     
     std::vector<Note> notes {
         Note(1, "C", true), Note(2, "Db", false), Note(3, "D", true),

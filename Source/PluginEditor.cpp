@@ -11,12 +11,12 @@
 
 //==============================================================================
 AiomFXAudioProcessorEditor::AiomFXAudioProcessorEditor (AiomFXAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), scale("C", "Major")
+    : AudioProcessorEditor (&p), audioProcessor (p)
 {
     setLookAndFeel(&aiomFXLAF);
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    audioProcessor.setScale(scale);
+    audioProcessor.scale.setKeyAndName("C", "Major");
     setSize (minWidth, minHeight);
 //    setResizable(true, true);
 //    setResizeLimits (minWidth, minHeight, maxWidth, maxHeight);
@@ -187,7 +187,7 @@ void AiomFXAudioProcessorEditor::paint (juce::Graphics& g)
     g.fillRect(scaleSectionPianoLeftBorder);
     g.fillRect(scaleSectionPianoRightBorder);
 
-    for (auto note : scale.getNotes()) {
+    for (auto note : audioProcessor.scale.getNotes()) {
         if (note.getIsNatural()) {
             if (note.getIsInScale()) {
                 g.setColour(notesColours["naturalActive"]);
@@ -206,7 +206,7 @@ void AiomFXAudioProcessorEditor::paint (juce::Graphics& g)
 
     // sharps and flats have to be painted after the naturals because order of painting
     // matters in juce. this way shaprs/flat are drawn correctly on top of naturals
-    for (auto note : scale.getNotes()) {
+    for (auto note : audioProcessor.scale.getNotes()) {
         if (!note.getIsNatural()) {
             if (note.getIsInScale()) {
                 g.setColour(notesColours["sharpActive"]);
@@ -260,7 +260,7 @@ void AiomFXAudioProcessorEditor::resized() {
 void AiomFXAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
     if (box == &keyDropdown || box == &scaleDropdown) {
         // TODO: get rid of scale object in plugin editor;
-        scale.setKeyAndName(keyDropdown.getText().toStdString(), scaleDropdown.getText().toStdString());
+//        scale.setKeyAndName(keyDropdown.getText().toStdString(), scaleDropdown.getText().toStdString());
         audioProcessor.scale.setKeyAndName(keyDropdown.getText().toStdString(), scaleDropdown.getText().toStdString());
         repaint();
     }
