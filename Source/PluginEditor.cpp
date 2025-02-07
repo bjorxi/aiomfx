@@ -259,10 +259,9 @@ void AiomFXAudioProcessorEditor::resized() {
 
 void AiomFXAudioProcessorEditor::comboBoxChanged(juce::ComboBox *box) {
     if (box == &keyDropdown || box == &scaleDropdown) {
-        aiomfx::Scale newScale(keyDropdown.getText().toStdString(),
-                       scaleDropdown.getText().toStdString());
-        scale = newScale;
-        audioProcessor.setScale(newScale);
+        // TODO: get rid of scale object in plugin editor;
+        scale.setKeyAndName(keyDropdown.getText().toStdString(), scaleDropdown.getText().toStdString());
+        audioProcessor.scale.setKeyAndName(keyDropdown.getText().toStdString(), scaleDropdown.getText().toStdString());
         repaint();
     }
 }

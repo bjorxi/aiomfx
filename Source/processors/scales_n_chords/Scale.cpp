@@ -322,5 +322,33 @@ void Scale::invertChord(std::deque<int> &notes, int inversion) {
     notes.pop_front();
 }
 
+void Scale::setKeyAndName(std::string newKey, std::string newName) {
+    key = newKey;
+    name = newName;
+    
+    if (name == "Major")
+        buildMajorScale();
+    else if (name == "Minor")
+        buildMinorScale();
+    else if (name == "Lydian")
+        buildLydianScale();
+    else if (name == "Mixolydian")
+        buildMyxolydianScale();
+    else if (name == "Spanish")
+        buildSpanishScale();
+    else if (name == "Dorian")
+        buildDorianScale();
+    else if (name == "Phrygian")
+        buildPhrygianScale();
+    else if (name == "Harmonic Minor")
+        buildHarmonicMinorScale();
+    else if (name == "Melodic Minor")
+        buildMelodicMinorScale();
+    else if (name == "Major Pentatonic")
+        buildMajorPentatonicScale();
+    else if (name == "Minor Pentatonic")
+        buildMinorPentatonicScale();
+}
+
 
 }; // namespace aiomfx

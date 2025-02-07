@@ -99,5 +99,27 @@ public:
     int getInversion();
     
     void invertChord(std::deque<int> &notes, int inversion);
+    
+    /**
+     * Sets a new value for the key and therefore rebuilds the scale
+     *
+     * @param newKey - new key name
+     */
+    void setKey(std::string newKey);
+    
+    /**
+     * Sets a new value for the scale name and therefore rebuilds the scale
+     *
+     * @param newName - new scale name
+     */
+    void setName(std::string newName);
+    
+    /**
+     * Sets new values for the key and scale and therefore rebuilds the scale
+     *
+     * @param newKey - new key name
+     * @param newName - new scale name
+     */
+    void setKeyAndName(std::string newKey, std::string newName);
 };
 }

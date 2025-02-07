@@ -142,9 +142,9 @@ void AiomFXAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
             swapBuffers = true;
             
             if (msg.isNoteOn()) {
-                setCurrentNoteNumer(msg.getNoteNumber());
+                setCurrentNoteNumber(msg.getNoteNumber());
             } else {
-                setCurrentNoteNumer(-1);
+                setCurrentNoteNumber(-1);
             }
         }
         
@@ -183,12 +183,12 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
 }
 
 
-void AiomFXAudioProcessor::setCurrentNoteNumer(int val) {
-    currentNoteNumer = val;
+void AiomFXAudioProcessor::setCurrentNoteNumber(int val) {
+    currentNoteNumber = val;
 }
 
 int AiomFXAudioProcessor::getCurrentNoteNumber() {
-    return currentNoteNumer;
+    return currentNoteNumber;
 }
 
 void AiomFXAudioProcessor::setScale(aiomfx::Scale &scale) {

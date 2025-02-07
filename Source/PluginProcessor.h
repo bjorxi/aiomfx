@@ -56,13 +56,13 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
-    void setCurrentNoteNumer(int val);
+    void setCurrentNoteNumber(int val);
     int getCurrentNoteNumber();
     void setScale(aiomfx::Scale &scale);
     aiomfx::Scale scale;
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AiomFXAudioProcessor);
-    int currentNoteNumer = -1;
+    int currentNoteNumber = -1;
     
 };
